@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>తె த ಕ മ - PDF Reader</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0f0f0f;
+            --sidebar-bg: #1c1c1e;
+            --card-bg: #2c2c2e;
+            --accent-color: #ff2d55;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+        }
+        
+        /* Header Styles */
+        .header {
+            background: linear-gradient(45deg, var(--accent-color), #ff3b30);
+            padding: 12px 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Main Content Area */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #2c2c2e;
+            overflow-y: auto;
+            transition: var(--transition);
+            z-index: 10;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+        
+        .library-section {
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .folder-list {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+        
+        .folder-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .folder-item:hover {
+            background-color: #2c2c2e;
+        }
+        
+        .folder-item.active {
+            background-color: #3a3a3c;
+        }
+        
+        .folder-icon {
+            margin-right: 12px;
+            color: var(--accent-color);
+            font-size: 14px;
+        }
+        
+        .folder-info {
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .folder-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .folder-count {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        
+        .book-list {
+            list-style: none;
+            margin-left: 15px;
+            display: none;
+        }
+        
+        .book-list.show {
+            display: block;
+        }
+        
+        .book-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .book-item:hover {
+            background-color: #2c2c2e;
+        }
+        
+        .book-item.active {
+            background-color: #3a3a3c;
+        }
+        
+        .book-cover-small {
+            width: 30px;
+            height: 40px;
+            border-radius: 4px;
+            margin-right: 10px;
+            object-fit: cover;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .book-info {
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .book-title {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .book-author {
+            font-size: 11px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .pdf-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 9px;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--primary-bg);
+            z-index: 5;
+            border-bottom: 1px solid #2c2c2e;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 8px 12px;
+            width: 250px;
+        }
+        
+        .search-bar i {
+            margin-right: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            width: 100%;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-actions button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-left: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .user-actions button:hover {
+            color: var(--text-primary);
+        }
+        
+        .reading-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            position: relative;
+        }
+        
+        .book-cover-large {
+            width: 180px;
+            height: 270px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+        
+        .book-details {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .book-details h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .book-details h2 {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .preview-button, .pdf-button {
+            background: linear-gradient(45deg, #5ac8fa, #007aff);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 3px 10px rgba(90, 200, 250, 0.3);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .pdf-button {
+            background: linear-gradient(45deg, #34c759, #28cd41);
+            box-shadow: 0 3px 10px rgba(52, 199, 89, 0.3);
+        }
+        
+        .preview-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(90, 200, 250, 0.4);
+        }
+        
+        .pdf-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 199, 89, 0.4);
+        }
+        
+        .preview-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .preview-content {
+            background-color: var(--card-bg);
+            width: 90%;
+            max-width: 700px;
+            border-radius: 12px;
+            padding: 20px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #3a3a3c;
+        }
+        
+        .preview-header h2 {
+            font-size: 20px;
+            color: var(--text-primary);
+        }
+        
+        .close-preview {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .preview-body {
+            line-height: 1.6;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+        
+        .preview-body p {
+            margin-bottom: 12px;
+        }
+        
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        
+        .pdf-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            background: white;
+            z-index: 20;
+        }
+        
+        .pdf-toolbar {
+            padding: 10px 15px;
+            background: #2c2c2e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            border-bottom: 1px solid #3a3a3c;
+        }
+        
+        .pdf-toolbar button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+        
+        .pdf-toolbar button i {
+            font-size: 14px;
+        }
+        
+        .pdf-error {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: var(--accent-color);
+            background: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .pdf-error i {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        
+        .pdf-error h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+        
+        .pdf-error p {
+            margin-bottom: 8px;
+            color: #666;
+            max-width: 450px;
+            font-size: 14px;
+        }
+
+        .search-highlight {
+            background-color: rgba(255, 45, 85, 0.3);
+            padding: 1px 3px;
+            border-radius: 3px;
+        }
+        
+        .folder-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .folder-actions button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .new-folder-btn {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .collapse-all-btn {
+            background: #3a3a3c;
+            color: var(--text-primary);
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background-color: var(--sidebar-bg);
+            padding: 12px 15px;
+            border-top: 1px solid #2c2c2e;
+            text-align: center;
+        }
+        
+        .license {
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        
+        .podcast-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .podcast-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .podcast-link:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .podcast-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .podcast-name {
+            font-size: 10px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 240px;
+            }
+            
+            .search-bar {
+                width: 220px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 35vh;
+                border-right: none;
+                border-bottom: 1px solid #2c2c2e;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            .book-cover-large {
+                width: 150px;
+                height: 225px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .preview-button, .pdf-button {
+                width: 100%;
+            }
+            
+            .podcast-links {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .header p {
+                font-size: 12px;
+            }
+            
+            .book-details h1 {
+                font-size: 20px;
+            }
+            
+            .book-details h2 {
+                font-size: 14px;
+            }
+            
+            .folder-actions {
+                flex-direction: column;
+            }
+            
+            .pdf-toolbar {
+                padding: 8px 12px;
+            }
+            
+            .pdf-toolbar button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>నాగబు ద్ధ</h1>
+        <p>చరిత్ర యొక్క తీర్పు కీళడి తవ్వకాలు మరియు భట్టిప్రోలు అవశేషాల పేటికలలో చెక్కబడింది – ఋగ్వేదం యొక్క చనిపోతున్న ఆవుల కేకలలో కాదు.</p>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <span>తె த ಕ മ</span>
+            </div>
+            
+            <div class="library-section">
+                <h3 class="section-title">
+                    My Library
+                </h3>
+                
+                <div class="folder-actions">
+                    <button class="new-folder-btn" id="new-folder-btn">
+                        <i class="fas fa-folder-plus"></i> New Folder
+                    </button>
+                    <button class="collapse-all-btn" id="collapse-all-btn">
+                        <i class="fas fa-compress"></i> Collapse All
+                    </button>
+                </div>
+                
+                <ul class="folder-list" id="folder-list">
+                    <!-- Folders will be dynamically added here -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search your library">
+                </div>
+                
+                <div class="user-actions">
+                    <button><i class="fas fa-bell"></i></button>
+                    <button><i class="fas fa-cog"></i></button>
+                    <button><i class="fas fa-user-circle"></i></button>
+                </div>
+            </div>
+            
+            <div class="reading-area">
+                <img src="./images/Keeladi.jpg" alt="Book Cover" class="book-cover-large" id="main-book-cover">
+                
+                <div class="book-details">
+                    <h1 id="main-book-title">Keeladi</h1>
+                    <h2 id="main-book-author">by నాగబు ద్ధ</h2>
+                    <p id="main-book-meta">Published • PDF Format</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="preview-button" id="preview-button">Preview</button>
+                    <button class="pdf-button" id="open-pdf-button">Open PDF</button>
+                </div>
+            </div>
+
+            <div class="pdf-container" id="pdf-container">
+                <div class="pdf-toolbar">
+                    <button id="close-pdf">
+                        <i class="fas fa-arrow-left"></i> Back to Library
+                    </button>
+                    <span id="pdf-title">PDF Viewer</span>
+                    <div>
+                        <button id="pdf-download">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                <iframe class="pdf-viewer" id="pdf-viewer"></iframe>
+                <div class="pdf-error" id="pdf-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>Unable to Load PDF</h3>
+                    <p>The PDF file could not be loaded. Please check the file path and try again.</p>
+                    <p>If the problem persists, try opening the PDF in a new tab using the download button.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="preview-modal" id="preview-modal">
+        <div class="preview-content">
+            <div class="preview-header">
+                <h2 id="preview-header">Keeladi - Preview</h2>
+                <button class="close-preview" id="close-preview">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="preview-body" id="preview-body">
+                <p>Keeladi is a small village near Madurai in Tamil Nadu, India. The archaeological excavations conducted by the Tamil Nadu State Department of Archaeology at Keeladi have revealed a Sangam period settlement dated to the 6th century BCE by radiocarbon dating.</p>
+                
+                <p>The excavations have provided evidence for the existence of an urban settlement in Tamil Nadu during the Sangam period. The findings have included brick structures, terracotta ring wells, and over 15,000 artifacts including pottery, beads, and tools.</p>
+                
+                <p>The discovery has pushed back the date of the Sangam period by another three centuries, proving that urban civilization existed in Tamil Nadu since at least the 6th century BCE.</p>
+                
+                <p>The Keeladi findings have sparked renewed interest in the history of the Tamil people and have provided valuable insights into the ancient Tamil civilization.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="license">
+            <p>License by నాగబు ద్ధ &copy; 2022. All rights reserved.</p>
+        </div>
+        
+        <div class="podcast-links">
+            <a href="https://open.spotify.com/show/2YeGIWe9EibGMMA9Lfkxpv?si=052309b1863949c7" class="podcast-link" target="_blank">
+                <div class="podcast-icon" style="color: #1DB954;">
+                    <i class="fab fa-spotify"></i>
+                </div>
+                <span class="podcast-name">Spotify</span>
+            </a>
+            
+            <a href="https://music.amazon.in/podcasts/68bc9ff7-9d17-496d-bfe8-00e8784a241a/it%E2%80%99s-gonna-hurt" class="podcast-link" target="_blank">
+                <div class="podcast-icon" style="color: #00A8E1;">
+                    <i class="fab fa-amazon"></i>
+                </div>
+                <span class="podcast-name">Amazon Music</span>
+            </a>
+            
+            <a href="https://podcasts.apple.com/in/podcast/its-gonna-hurt/id1813697734" class="podcast-link" target="_blank">
+                <div class="podcast-icon" style="color: #9933CC;">
+                    <i class="fas fa-podcast"></i>
+                </div>
+                <span class="podcast-name">Apple Podcast</span>
+            </a>
+            
+            <a href="https://youtube.com/playlist?list=PLuUNxtwyUemGADrfCJ-DsIMw6HAAlLJ7R&si=nX26WLVZehqDTOyW" class="podcast-link" target="_blank">
+                <div class="podcast-icon" style="color: #FF0000;">
+                    <i class="fab fa-youtube"></i>
+                </div>
+                <span class="podcast-name">YouTube</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Folder and book library data
+        const library = {
+            folders: [
+                {
+                    id: 'folder1',
+                    name: 'Keeladi',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "Keeladi/కీళడి",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/Keeladi.jpg",
+                            pdf: "./pdf/Keeladi.pdf",
+                            description: "Keeladi is a small village near Madurai in Tamil Nadu, India. The archaeological excavations conducted by the Tamil Nadu State Department of Archaeology at Keeladi have revealed a Sangam period settlement dated to the 6th century BCE by radiocarbon dating."
+                        },
+                        {
+                            id: 'book2',
+                            title: "కె. అమర్నాథ్ రామకృష్ణ థియరీ",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/K amarnath.jpg",
+                            pdf: "./pdf/కె. అమర్నాథ్ రామకృష్ణ థియరీ.pdf",
+                            description: "k Amarnath was transfered 12 times after discover the keeladi site."
+                        },
+                         {
+                            id: 'book3',
+                title: "సవాలు చేస్తున్న కీళడి ఆధారాలు",
+                author: "నాగబు ద్ధ",
+                cover: "./images/keeladi2.jpg",
+                pdf: "./pdf/battiprolu.pdf",
+                description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
+            },
+              { 
+                id: 'book4',
+                title: "కీళడి, భట్టిప్రోలు",
+                author: "నాగబు ద్ధ",
+                cover: "./images/battiprolu.png",
+                pdf: "./pdf/కీళడి, భట్టిప్రోలు.pdf",
+                description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
+            }
+                    ]
+                },
+                {
+                    id: 'folder2',
+                    name: 'Tirupati',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "తిరుమల బౌద్ధ మందిరం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/tirupati.png",
+                            pdf: "./pdf/తిరుమల బౌద్ధ మందిరం.pdf",
+                            description: "tirupathi was a buddhist temple."
+                        },
+                        {
+                            id: 'book2',
+                            title: "రామానుజుడు మరియు తిరుచోకినూర్ స్వామి",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ramanuja.png",
+                            pdf: "./pdf/రామానుజుడు మరియు తిరుచోకినూర్ స్వామి.pdf",
+                            description: "tirupathi was a buddhist temple. The temple was built in the 3-5th century CE by the Kalabra dynasty. The temple is dedicated to the Buddha and is one of the oldest Buddhist temples in India. The temple has a large statue of the Buddha and many smaller statues of Buddhist deities. The temple is also known for its beautiful architecture and intricate carvings."
+                        },
+                        
+                    ]
+                },
+                {
+                    id: 'folder3',
+                    name: 'రామాయణ రహస్యం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "రామాయణ రహస్యం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ramayana.jpg",
+                            pdf: "./pdf/రామాయణ రహస్యం.pdf",
+                            description: "Rama has more than one wife in valmiki ramayana"
+                        },
+                        {
+                            id: 'book2',
+                            title: "సీత రాముడికి ఏమవుతుంది",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/sita.jpg",
+                            pdf: "./pdf/సీత రాముడికి ఏమవుతుంది.pdf",
+                            description: "we need to look ramayana is a story no need to look like a god stories"
+                        },
+                        {
+                            id: 'book3',
+                            title: "ఆంజనేయుని తండ్రి ఎవరు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/hanuman.jpg",
+                            pdf: "./pdf/ఆంజనేయుని తండ్రి ఎవరు.pdf",
+                            description: "we need to look ramayana is a story no need to look like a god stories"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder4',
+                    name: 'భిక్షువు సన్యాసి కాదు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "భిక్షువు సన్యాసి కాదు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/buddhism.jpg",
+                            pdf: "./pdf/భిక్షువు సన్యాసి కాదు.pdf",
+                            description: "The origins and development of Buddhism in India"
+                        },
+                        {
+                            id: 'book2',
+                            title: "అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/buddhism.jpg",
+                            pdf: "./pdf/అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు.pdf",
+                            description: "Ashoka was a follower of Buddhism before the Kalinga war, contrary to popular belief that he converted to Buddhism after the war."
+                        },
+                        
+                    ]
+                },
+                {
+                    id: 'folder5',
+                    name: 'ఇకాకు వంశం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "వశిష్ఠీపుత్ర సిరి చాంతమూలుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ikkaku.png",
+                            pdf: "./pdf/వశిష్ఠీపుత్ర సిరి చాంతమూలుడు.pdf",
+                            description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
+                        },
+                        {
+                            id: 'book2',
+                            title: "మాఠరీపుత్ర వీర పురుష దత్త",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/veerapurusha.png",
+                            pdf: "./pdf/సిరి విరపురిసదత్తస.pdf",
+                            description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
+                        },
+                         {
+                            id: 'book3',
+                            title: "మాఠరీపుత్ర వీర పురుష దత్త",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/veerapurusha.png",
+                            pdf: "./pdf/సిరి విరపురిసదత్తస.pdf",
+                            description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder6',
+                    name: 'కలియుగం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "కలియుగం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/amaravati.jpg",
+                            pdf: "./pdf/కలియుగం.pdf",
+                            description: "In gargachari view point kaliyugam was ended in 165BCE but why bramhins still saying kaliyugam is going on?"
+                        },
+                         {
+                            id: 'book2',
+                            title: "ప్రాచీన ఆర్యుల వివాహాలు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/amaravati.jpg",
+                            pdf: "./pdf/ప్రాచీన ఆర్యుల వివాహాలు.pdf",
+                            description: "The marriage customs of ancient Aryans and their impact on society will shock you"
+                        },
+                        {
+                            id: 'book3',
+                            title: "నీతి మంతులైన ప్రాచీన ఋషులు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/amaravati.jpg",
+                            pdf: "./pdf/నీతి మంతులైన ప్రాచీన ఋషులు.pdf",
+                            description: "One of the worst things that happened in the history of India is the Aryan invasion, which led to the destruction of the Indus Valley civilization and the imposition of a new social order based on caste and class."
+                        }
+                    ]
+                },
+                
+                
+                {
+                    id: 'folder7',
+                    name: 'శూద్రులు ఎవరు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "శూద్రులు ఎవరు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/sanchi.jpg",
+                            pdf: "./pdf/శూద్రులు ఎవరు.pdf",
+                            description: "divodasu was shudra king and vasista was his family priest. This book explores the origins of the Shudra caste and its historical significance in ancient India."
+                        },
+                         {
+                            id: 'book2',
+                            title: "బ్రాహ్మణుల అహంకారం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/sanchi.jpg",
+                            pdf: "./pdf/బ్రాహ్మణుల అహంకారం.pdf",
+                            description: "Bramhins are the most arrogant people in the world, they think they are superior to all other castes and that they are the only ones who can perform rituals and ceremonies.(Those rituals are full of lies and superstitions)"
+                        },
+                         {
+                            id: 'book3',
+                            title: "పగ తీర్చుకున్న బ్రాహ్మణులు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/sanchi.jpg",
+                            pdf: "./pdf/పగ తీర్చుకున్న బ్రాహ్మణులు.pdf",
+                            description: "Bramhins are the most arrogant people in the world, they think they are superior to all other castes and that they are the only ones who can perform rituals and ceremonies.(Those rituals are full of lies and superstitions)"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder8',
+                    name: 'వేదాలు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "వేదాలు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/vedas.jpg",
+                            pdf: "./pdf/వేదాలు.pdf",
+                            description: "Critical analysis of Vedas"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder9',
+                    name: 'పురాణాలు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "పురాణాలు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/puranas.jpg",
+                            pdf: "./pdf/పురాణాలు.pdf",
+                            description: "Mythology vs history in Puranas"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder10',
+                    name: 'ఇతిహాసాలు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "ఇతిహాసాలు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/itihasa.jpg",
+                            pdf: "./pdf/ఇతిహాసాలు.pdf",
+                            description: "Historical accuracy of Indian epics"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder11',
+                    name: 'బౌద్ధ దర్శనం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "బౌద్ధ దర్శనం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/buddha.jpg",
+                            pdf: "./pdf/బౌద్ధ దర్శనం.pdf",
+                            description: "Philosophy of Buddhism"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder12',
+                    name: 'జైనం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "జైనం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/jain.jpg",
+                            pdf: "./pdf/జైనం.pdf",
+                            description: "Jain philosophy and history"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder13',
+                    name: 'చార్వాకం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "చార్వాకం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/charvaka.jpg",
+                            pdf: "./pdf/చార్వాకం.pdf",
+                            description: "Materialist philosophy of Charvaka"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder14',
+                    name: 'ఆధునిక భారతం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "ఆధునిక భారతం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/modern.jpg",
+                            pdf: "./pdf/ఆధునిక భారతం.pdf",
+                            description: "Modern Indian history"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder15',
+                    name: 'అర్థశాస్త్రం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "అర్థశాస్త్రం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/economics.jpg",
+                            pdf: "./pdf/అర్థశాస్త్రం.pdf",
+                            description: "Economic history of ancient India"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // DOM Elements
+        const previewButton = document.getElementById('preview-button');
+        const openPdfButton = document.getElementById('open-pdf-button');
+        const previewModal = document.getElementById('preview-modal');
+        const closePreview = document.getElementById('close-preview');
+        const folderList = document.getElementById('folder-list');
+        const mainBookCover = document.getElementById('main-book-cover');
+        const mainBookTitle = document.getElementById('main-book-title');
+        const mainBookAuthor = document.getElementById('main-book-author');
+        const mainBookMeta = document.getElementById('main-book-meta');
+        const previewHeader = document.getElementById('preview-header');
+        const previewBody = document.getElementById('preview-body');
+        const pdfContainer = document.getElementById('pdf-container');
+        const pdfViewer = document.getElementById('pdf-viewer');
+        const closePdf = document.getElementById('close-pdf');
+        const pdfTitle = document.getElementById('pdf-title');
+        const pdfDownload = document.getElementById('pdf-download');
+        const pdfError = document.getElementById('pdf-error');
+        const searchInput = document.getElementById('search-input');
+        const newFolderBtn = document.getElementById('new-folder-btn');
+        const collapseAllBtn = document.getElementById('collapse-all-btn');
+
+        // Current state
+        let currentBookId = 'book1';
+        let currentFolderId = 'folder1';
+        let expandedFolders = {};
+
+        // Generate a unique ID
+        function generateId() {
+            return Math.random().toString(36).substring(2) + Date.now().toString(36);
+        }
+
+        // Initialize the library
+        function initializeLibrary() {
+            // Clear the folder list
+            folderList.innerHTML = '';
+            
+            // Add folders to the library
+            library.folders.forEach((folder, folderIndex) => {
+                const li = document.createElement('li');
+                li.classList.add('folder-item');
+                if (folder.id === currentFolderId) li.classList.add('active');
+                
+                li.innerHTML = `
+                    <i class="fas fa-folder folder-icon"></i>
+                    <div class="folder-info">
+                        <div class="folder-name">${folder.name}</div>
+                        <div class="folder-count">${folder.books.length} books</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size: 11px;"></i>
+                `;
+                
+                // Create book list for this folder
+                const bookList = document.createElement('ul');
+                bookList.classList.add('book-list');
+                bookList.id = `book-list-${folder.id}`;
+                
+                if (expandedFolders[folder.id]) {
+                    bookList.classList.add('show');
+                    li.querySelector('.fa-chevron-down').style.transform = 'rotate(180deg)';
+                }
+                
+                // Add books to the folder
+                folder.books.forEach((book, bookIndex) => {
+                    const bookLi = document.createElement('li');
+                    bookLi.classList.add('book-item');
+                    if (book.id === currentBookId) bookLi.classList.add('active');
+                    
+                    bookLi.innerHTML = `
+                        <img src="${book.cover}" alt="Book Cover" class="book-cover-small">
+                        <div class="book-info">
+                            <div class="book-title">${book.title}</div>
+                            <div class="book-author">${book.author}</div>
+                        </div>
+                        <span class="pdf-badge">PDF</span>
+                    `;
+                    
+                    bookLi.addEventListener('click', () => loadBook(book.id, folder.id));
+                    bookList.appendChild(bookLi);
+                });
+                
+                li.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('fa-chevron-down')) {
+                        toggleFolder(folder.id, li);
+                    }
+                });
+                
+                folderList.appendChild(li);
+                folderList.appendChild(bookList);
+            });
+        }
+
+        // Toggle folder expansion
+        function toggleFolder(folderId, folderElement) {
+            const bookList = document.getElementById(`book-list-${folderId}`);
+            const chevron = folderElement.querySelector('.fa-chevron-down');
+            
+            if (bookList) {
+                bookList.classList.toggle('show');
+                expandedFolders[folderId] = !expandedFolders[folderId];
+                
+                // Rotate chevron icon
+                if (expandedFolders[folderId]) {
+                    chevron.style.transform = 'rotate(180deg)';
+                } else {
+                    chevron.style.transform = 'rotate(0deg)';
+                }
+            }
+        }
+
+        // Load book into main view
+        function loadBook(bookId, folderId) {
+            const folder = library.folders.find(f => f.id === folderId);
+            if (!folder) return;
+            
+            const book = folder.books.find(b => b.id === bookId);
+            if (!book) return;
+            
+            currentBookId = bookId;
+            currentFolderId = folderId;
+            
+            // Update main view
+            mainBookCover.src = book.cover;
+            mainBookTitle.textContent = book.title;
+            mainBookAuthor.textContent = `by ${book.author}`;
+            mainBookMeta.textContent = "Published • PDF Format";
+            
+            // Update preview modal
+            previewHeader.textContent = `${book.title} - Preview`;
+            previewBody.innerHTML = `
+                <p>${book.description}</p>
+            `;
+            
+            // Update active state
+            document.querySelectorAll('.folder-item').forEach((item, i) => {
+                if (library.folders[i].id === folderId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            document.querySelectorAll('.book-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const activeBookItem = document.querySelector(`#book-list-${folderId} .book-item:nth-child(${folder.books.findIndex(b => b.id === bookId) + 1})`);
+            if (activeBookItem) {
+                activeBookItem.classList.add('active');
+            }
+            
+            // Close any open views
+            pdfContainer.style.display = 'none';
+        }
+
+        // Search function
+        function searchBooks(query) {
+            if (!query) {
+                // Reset to normal view if search is empty
+                initializeLibrary();
+                return;
+            }
+            
+            const searchTerm = query.toLowerCase();
+            folderList.innerHTML = '';
+            
+            // Create a search results folder
+            const searchResultsFolder = document.createElement('li');
+            searchResultsFolder.classList.add('folder-item');
+            searchResultsFolder.innerHTML = `
+                <i class="fas fa-search folder-icon"></i>
+                <div class="folder-info">
+                    <div class="folder-name">Search Results</div>
+                    <div class="folder-count">0 books found</div>
+                </div>
+            `;
+            
+            const searchResultsList = document.createElement('ul');
+            searchResultsList.classList.add('book-list', 'show');
+            
+            let resultCount = 0;
+            
+            // Search through all folders and books
+            library.folders.forEach(folder => {
+                folder.books.forEach(book => {
+                    if (book.title.toLowerCase().includes(searchTerm) || 
+                        book.author.toLowerCase().includes(searchTerm) ||
+                        book.description.toLowerCase().includes(searchTerm)) {
+                        
+                        resultCount++;
+                        
+                        const bookLi = document.createElement('li');
+                        bookLi.classList.add('book-item');
+                        
+                        // Highlight search term in title
+                        const highlightedTitle = book.title.replace(
+                            new RegExp(searchTerm, 'gi'),
+                            match => `<span class="search-highlight">${match}</span>`
+                        );
+                        
+                        bookLi.innerHTML = `
+                            <img src="${book.cover}" alt="Book Cover" class="book-cover-small">
+                            <div class="book-info">
+                                <div class="book-title">${highlightedTitle}</div>
+                                <div class="book-author">${book.author}</div>
+                            </div>
+                            <span class="pdf-badge">PDF</span>
+                        `;
+                        
+                        bookLi.addEventListener('click', () => loadBook(book.id, folder.id));
+                        searchResultsList.appendChild(bookLi);
+                    }
+                });
+            });
+            
+            // Update result count
+            searchResultsFolder.querySelector('.folder-count').textContent = `${resultCount} books found`;
+            
+            if (resultCount === 0) {
+                searchResultsList.innerHTML = `
+                    <li class="book-item">
+                        <div class="book-info">
+                            <div class="book-title">No books found</div>
+                            <div class="book-author">Try a different search term</div>
+                        </div>
+                    </li>
+                `;
+            }
+            
+            folderList.appendChild(searchResultsFolder);
+            folderList.appendChild(searchResultsList);
+        }
+
+        // Open PDF in full view
+        function openPdf() {
+            const folder = library.folders.find(f => f.id === currentFolderId);
+            if (!folder) return;
+            
+            const book = folder.books.find(b => b.id === currentBookId);
+            if (!book) return;
+            
+            // Reset error state
+            pdfError.style.display = 'none';
+            pdfViewer.style.display = 'block';
+            
+            // Set PDF source and title
+            pdfViewer.src = book.pdf;
+            pdfTitle.textContent = book.title;
+            
+            // Set download link
+            pdfDownload.onclick = () => {
+                const a = document.createElement('a');
+                a.href = book.pdf;
+                a.download = book.title + '.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+            
+            // Show PDF container
+            pdfContainer.style.display = 'flex';
+            
+            // Check if PDF loaded successfully
+            const pdfLoadCheck = setTimeout(() => {
+                // If the PDF doesn't load within 3 seconds, show error
+                try {
+                    if (!pdfViewer.contentDocument || 
+                        pdfViewer.contentDocument.readyState !== 'complete' || 
+                        pdfViewer.contentDocument.querySelector('embed') === null) {
+                        showPdfError();
+                    }
+                } catch (e) {
+                    // Cross-origin issue, can't check directly
+                    console.log("Cannot check PDF status due to cross-origin restrictions");
+                }
+            }, 3000);
+            
+            // Clear the timeout when PDF loads
+            pdfViewer.addEventListener('load', () => {
+                clearTimeout(pdfLoadCheck);
+            });
+            
+            pdfViewer.addEventListener('error', () => {
+                clearTimeout(pdfLoadCheck);
+                showPdfError();
+            });
+        }
+
+        function showPdfError() {
+            pdfViewer.style.display = 'none';
+            pdfError.style.display = 'flex';
+        }
+
+        // Create a new folder
+        function createNewFolder() {
+            const folderName = prompt("Enter folder name:");
+            if (folderName && folderName.trim() !== '') {
+                const newFolder = {
+                    id: generateId(),
+                    name: folderName.trim(),
+                    books: []
+                };
+                
+                library.folders.push(newFolder);
+                initializeLibrary();
+            }
+        }
+
+        // Collapse all folders
+        function collapseAllFolders() {
+            expandedFolders = {};
+            initializeLibrary();
+        }
+
+        // Event Listeners
+        previewButton.addEventListener('click', () => {
+            previewModal.style.display = 'flex';
+        });
+
+        openPdfButton.addEventListener('click', openPdf);
+
+        closePreview.addEventListener('click', () => {
+            previewModal.style.display = 'none';
+        });
+
+        closePdf.addEventListener('click', () => {
+            pdfContainer.style.display = 'none';
+            pdfViewer.src = '';
+        });
+
+        searchInput.addEventListener('input', () => {
+            searchBooks(searchInput.value);
+        });
+
+        newFolderBtn.addEventListener('click', createNewFolder);
+        
+        collapseAllBtn.addEventListener('click', collapseAllFolders);
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {   
+            if (e.target === previewModal) {
+                previewModal.style.display = 'none';
+            }
+        });
+
+        // Initialize the app
+        initializeLibrary();
+        loadBook('book1', 'folder1');
+    </script>
+</body>
+</html>
