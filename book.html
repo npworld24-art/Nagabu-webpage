@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,9 +48,9 @@
         }
         
         .header p {
-            font-size: 14px;
+            font-size: 21px;
             opacity: 0.9;
-            max-width: 800px;
+            max-width: 1300px;
             margin: 0 auto;
         }
         
@@ -470,7 +471,33 @@
             font-size: 50px;
             margin-bottom: 15px;
         }
-        
+        .header {
+    position: relative; /* so child can be positioned inside */
+    padding: 20px;
+}
+
+.coin-image {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 100px;   /* adjust for quarter-size look */
+    height: 100px;
+    border-radius: 50%; /* makes it circular */
+    object-fit: cover;
+    border: 2px solid #ccc; /* optional coin border */
+    box-shadow: 0 0 5px rgba(0,0,0,0.3); /* optional depth */
+}
+.dravida-image {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;   /* adjust for quarter-size look */
+    height: 100px;
+    border-radius: 50%; /* makes it circular */
+    object-fit: cover;
+    border: 2px solid #ccc; /* optional coin border */
+    box-shadow: 0 0 5px rgba(0,0,0,0.3); /* optional depth */
+}
         .pdf-error h3 {
             font-size: 20px;
             margin-bottom: 12px;
@@ -619,11 +646,11 @@
         
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 20px;
+                font-size: 40px;
             }
             
             .header p {
-                font-size: 12px;
+                font-size: 90px;
             }
             
             .book-details h1 {
@@ -651,11 +678,19 @@
 </head>
 <body>
     <!-- Header -->
-    <div class="header">
+    <!-- <div class="header">
         <h1>నాగబు ద్ధ</h1>
         <p>చరిత్ర యొక్క తీర్పు కీళడి తవ్వకాలు మరియు భట్టిప్రోలు అవశేషాల పేటికలలో చెక్కబడింది – ఋగ్వేదం యొక్క చనిపోతున్న ఆవుల కేకలలో కాదు.</p>
-    </div>
+    </div> -->
+    <div class="header">
+    <h1>నాగబు ద్ధ</h1>
+    <p>చరిత్ర యొక్క తీర్పు కీళడి తవ్వకాలు మరియు భట్టిప్రోలు అవశేషాల పేటికలలో చెక్కబడింది – ఋగ్వేదం యొక్క చనిపోతున్న ఆవుల కేకలలో కాదు.</p>
     
+    <!-- Coin Image -->
+    <img src="./images/nagabu.JPG" alt="Coin" class="coin-image">
+    <img src="./images/Logo maker project.png" alt="dravida" class="dravida-image">
+</div>
+
     <!-- Main Content -->
     <div class="main-container">
         <!-- Sidebar -->
@@ -802,11 +837,11 @@
             folders: [
                 {
                     id: 'folder1',
-                    name: 'Keeladi',
+                    name: 'కీళడి',
                     books: [
                         {
                             id: 'book1',
-                            title: "Keeladi/కీళడి",
+                            title: "కీళడి",
                             author: "నాగబు ద్ధ",
                             cover: "./images/Keeladi.jpg",
                             pdf: "./pdf/Keeladi.pdf",
@@ -835,12 +870,21 @@
                 cover: "./images/battiprolu.png",
                 pdf: "./pdf/కీళడి, భట్టిప్రోలు.pdf",
                 description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
+            },
+            { 
+                id: 'book5',
+                title: "కీళడి Short History",
+                author: "నాగబు ద్ధ",
+                cover: "./images/battiprolu.png",
+                pdf: "./pdf/keeladishort.pdf",
+                description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
             }
+            
                     ]
                 },
                 {
                     id: 'folder2',
-                    name: 'Tirupati',
+                    name: 'తిరుమల చరిత్ర',
                     books: [
                         {
                             id: 'book1',
@@ -869,7 +913,7 @@
                             id: 'book1',
                             title: "రామాయణ రహస్యం",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/ramayana.jpg",
+                            cover: "./images/ramayana rahasyam.PNG",
                             pdf: "./pdf/రామాయణ రహస్యం.pdf",
                             description: "Rama has more than one wife in valmiki ramayana"
                         },
@@ -877,7 +921,7 @@
                             id: 'book2',
                             title: "సీత రాముడికి ఏమవుతుంది",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/sita.jpg",
+                            cover: "./images/ramasita.PNG",
                             pdf: "./pdf/సీత రాముడికి ఏమవుతుంది.pdf",
                             description: "we need to look ramayana is a story no need to look like a god stories"
                         },
@@ -885,7 +929,7 @@
                             id: 'book3',
                             title: "ఆంజనేయుని తండ్రి ఎవరు",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/hanuman.jpg",
+                            cover: "./images/anjaneyuni.PNG",
                             pdf: "./pdf/ఆంజనేయుని తండ్రి ఎవరు.pdf",
                             description: "we need to look ramayana is a story no need to look like a god stories"
                         }
@@ -899,7 +943,7 @@
                             id: 'book1',
                             title: "భిక్షువు సన్యాసి కాదు",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/buddhism.jpg",
+                            cover: "./images/bikshu.png",
                             pdf: "./pdf/భిక్షువు సన్యాసి కాదు.pdf",
                             description: "The origins and development of Buddhism in India"
                         },
@@ -907,7 +951,7 @@
                             id: 'book2',
                             title: "అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/buddhism.jpg",
+                            cover: "./images/Ashoka's.jpg",
                             pdf: "./pdf/అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు.pdf",
                             description: "Ashoka was a follower of Buddhism before the Kalinga war, contrary to popular belief that he converted to Buddhism after the war."
                         },
@@ -941,6 +985,14 @@
                             cover: "./images/veerapurusha.png",
                             pdf: "./pdf/సిరి విరపురిసదత్తస.pdf",
                             description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
+                        },
+                         {
+                            id: 'book4',
+                            title: "మాఠరీపుత్ర వీరపురుష దత్త ప్రాకృత శాసనం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/veerapurusha.png",
+                            pdf: "./pdf/Veera Purushadatta’s Prakrit inscription.pdf",
+                            description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
                         }
                     ]
                 },
@@ -952,7 +1004,7 @@
                             id: 'book1',
                             title: "కలియుగం",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/amaravati.jpg",
+                            cover: "./images/nagabu.JPG",
                             pdf: "./pdf/కలియుగం.pdf",
                             description: "In gargachari view point kaliyugam was ended in 165BCE but why bramhins still saying kaliyugam is going on?"
                         },
@@ -960,7 +1012,7 @@
                             id: 'book2',
                             title: "ప్రాచీన ఆర్యుల వివాహాలు",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/amaravati.jpg",
+                            cover: "./images/nagabu.JPG",
                             pdf: "./pdf/ప్రాచీన ఆర్యుల వివాహాలు.pdf",
                             description: "The marriage customs of ancient Aryans and their impact on society will shock you"
                         },
@@ -968,7 +1020,7 @@
                             id: 'book3',
                             title: "నీతి మంతులైన ప్రాచీన ఋషులు",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/amaravati.jpg",
+                            cover: "./images/nagabu.JPG",
                             pdf: "./pdf/నీతి మంతులైన ప్రాచీన ఋషులు.pdf",
                             description: "One of the worst things that happened in the history of India is the Aryan invasion, which led to the destruction of the Indus Valley civilization and the imposition of a new social order based on caste and class."
                         }
@@ -984,7 +1036,7 @@
                             id: 'book1',
                             title: "శూద్రులు ఎవరు",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/sanchi.jpg",
+                            cover: "./images/shudra.JPG",
                             pdf: "./pdf/శూద్రులు ఎవరు.pdf",
                             description: "divodasu was shudra king and vasista was his family priest. This book explores the origins of the Shudra caste and its historical significance in ancient India."
                         },
@@ -992,7 +1044,7 @@
                             id: 'book2',
                             title: "బ్రాహ్మణుల అహంకారం",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/sanchi.jpg",
+                            cover: "./images/bramhinaham.png",
                             pdf: "./pdf/బ్రాహ్మణుల అహంకారం.pdf",
                             description: "Bramhins are the most arrogant people in the world, they think they are superior to all other castes and that they are the only ones who can perform rituals and ceremonies.(Those rituals are full of lies and superstitions)"
                         },
@@ -1000,7 +1052,7 @@
                             id: 'book3',
                             title: "పగ తీర్చుకున్న బ్రాహ్మణులు",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/sanchi.jpg",
+                            cover: "./images/pagatirchu.jpg",
                             pdf: "./pdf/పగ తీర్చుకున్న బ్రాహ్మణులు.pdf",
                             description: "Bramhins are the most arrogant people in the world, they think they are superior to all other castes and that they are the only ones who can perform rituals and ceremonies.(Those rituals are full of lies and superstitions)"
                         }
@@ -1008,49 +1060,81 @@
                 },
                 {
                     id: 'folder8',
-                    name: 'వేదాలు',
+                    name: 'తెలుగు లిపి మార్పు',
                     books: [
                         {
                             id: 'book1',
-                            title: "వేదాలు",
+                            title: "తెలుగు లిపి మార్పు",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/vedas.jpg",
-                            pdf: "./pdf/వేదాలు.pdf",
-                            description: "Critical analysis of Vedas"
+                            cover: "./images/telugulipmarpu.JPG",
+                            pdf: "./pdf/తెలుగు లిపి మార్పు.pdf",
+                            description: "How Telugu script has changed over the years and its impact on literature. This book explores the evolution of the Telugu script and its significance in preserving the language and culture."
                         }
                     ]
                 },
                 {
                     id: 'folder9',
-                    name: 'పురాణాలు',
+                    name: 'హిందీ',
                     books: [
                         {
                             id: 'book1',
-                            title: "పురాణాలు",
+                            title: "హిందీ",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/puranas.jpg",
-                            pdf: "./pdf/పురాణాలు.pdf",
-                            description: "Mythology vs history in Puranas"
+                            cover: "./images/hindi.JPEG",
+                            pdf: "./pdf/హిందీ.pdf",
+                            description: "we don't need to learn hindi. we have to lern dravidian languages like Tamil, Telugu, Kannada and Malayalam."
                         }
                     ]
                 },
                 {
                     id: 'folder10',
-                    name: 'ఇతిహాసాలు',
+                    name: 'వేదాల రచన కాలం',
                     books: [
                         {
                             id: 'book1',
-                            title: "ఇతిహాసాలు",
+                            title: "వేదాల రచన కాలం",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/itihasa.jpg",
-                            pdf: "./pdf/ఇతిహాసాలు.pdf",
-                            description: "Historical accuracy of Indian epics"
+                            cover: "./images/nagabu.JPG",
+                            pdf: "./pdf/వేదాల రచన కాలం.pdf",
+                            description: "vedas were written in 6-8th century ce and not in 1500 BCE as claimed by bramhins. This book discusses the historical context and timeline of the Vedas' composition, challenging traditional beliefs about their origins."
+                        },
+                        {
+                            id: 'book2',
+                            title: "రామాయణ,మహాభారతాల రచన కాలం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/nagabu.JPG",
+                            pdf: "./pdf/రామాయణ, మహాభారతాల.pdf",
+                            description: "in rahul samskritayan's view point ramayana and mahabharata were written in 6-8th century ce and not in 1500 BCE as claimed by bramhins. This book explores the timeline of the Ramayana and Mahabharata's composition, providing insights into their historical significance."
+                        },
+                        {
+                            id: 'book3',
+                            title: "శైవ తిలకం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/shivathilakam.jpeg",
+                            pdf: "./pdf/శైవ తిలకం.pdf",
+                            description: "after 11th century ce shiva tilakam came into existence and it is not a vedic text as claimed by bramhins. This book examines the origins of the Shiva Tilakam and its role in shaping Shaivism in South India."
+                        },
+                        {
+                            id: 'book4',
+                            title: "వైష్ణవ తిలకం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/vaishavathilakam.jpeg",
+                            pdf: "./pdf/వైష్ణవ తిలకం.pdf",
+                            description: "after ramanuja's time vaishnava tilakam came into existence and it is not a vedic text as claimed by bramhins. This book explores the origins of the Vaishnava Tilakam and its influence on Vaishnavism in South India."
+                        },
+                         {
+                            id: 'book5',
+                            title: "ఏంటి హిందూ మతం గొప్ప",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/satisahagamanam.webp",
+                            pdf: "./pdf/ఏంటి హిందూ మతం గొప్ప.pdf",
+                            description: "hindu religion is not great and it is a religion of superstitions and lies. This book critically examines the claims of Hinduism's greatness, highlighting its historical and cultural complexities."
                         }
                     ]
                 },
                 {
                     id: 'folder11',
-                    name: 'బౌద్ధ దర్శనం',
+                    name: 'బౌద్ధ',
                     books: [
                         {
                             id: 'book1',
