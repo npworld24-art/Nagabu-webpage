@@ -20,6 +20,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         
@@ -29,28 +30,69 @@
             min-height: 100vh;
             background-color: var(--primary-bg);
             color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
         
         /* Header Styles */
         .header {
             background: linear-gradient(45deg, var(--accent-color), #ff3b30);
-            padding: 12px 15px;
+            padding: 15px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             z-index: 100;
+            position: relative;
         }
         
         .header h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
+            line-height: 1.2;
         }
         
         .header p {
             font-size: 14px;
             opacity: 0.9;
-            max-width: 800px;
+            max-width: 100%;
             margin: 0 auto;
+            line-height: 1.4;
+        }
+        
+        .coin-image, .dravida-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .coin-image {
+            right: 10px;
+        }
+        
+        .dravida-image {
+            left: 10px;
+        }
+        
+        /* Overlay for mobile menu */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+        
+        .overlay.active {
+            display: block;
         }
         
         /* Main Content Area */
@@ -58,6 +100,7 @@
             display: flex;
             flex: 1;
             overflow: hidden;
+            position: relative;
         }
         
         .sidebar {
@@ -70,6 +113,7 @@
             overflow-y: auto;
             transition: var(--transition);
             z-index: 10;
+            -webkit-overflow-scrolling: touch;
         }
         
         .logo {
@@ -287,11 +331,13 @@
             justify-content: center;
             padding: 15px;
             position: relative;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .book-cover-large {
-            width: 180px;
-            height: 270px;
+            width: 160px;
+            height: 240px;
             border-radius: 8px;
             object-fit: cover;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
@@ -304,7 +350,7 @@
         }
         
         .book-details h1 {
-            font-size: 24px;
+            font-size: 22px;
             margin-bottom: 8px;
             font-weight: 600;
         }
@@ -325,7 +371,7 @@
             background: linear-gradient(45deg, #5ac8fa, #007aff);
             color: white;
             border: none;
-            padding: 10px 25px;
+            padding: 12px 25px;
             border-radius: 25px;
             font-size: 14px;
             font-weight: 500;
@@ -342,14 +388,9 @@
             box-shadow: 0 3px 10px rgba(52, 199, 89, 0.3);
         }
         
-        .preview-button:hover {
+        .preview-button:hover, .pdf-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(90, 200, 250, 0.4);
-        }
-        
-        .pdf-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 199, 89, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
         
         .preview-modal {
@@ -363,6 +404,7 @@
             justify-content: center;
             align-items: center;
             z-index: 100;
+            -webkit-overflow-scrolling: touch;
         }
         
         .preview-content {
@@ -373,6 +415,7 @@
             padding: 20px;
             max-height: 85vh;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .preview-header {
@@ -415,7 +458,7 @@
         }
         
         .pdf-container {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -423,11 +466,11 @@
             display: none;
             flex-direction: column;
             background: white;
-            z-index: 20;
+            z-index: 1000;
         }
         
         .pdf-toolbar {
-            padding: 10px 15px;
+            padding: 12px 15px;
             background: #2c2c2e;
             display: flex;
             justify-content: space-between;
@@ -564,6 +607,28 @@
             font-size: 10px;
         }
         
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 101;
+        }
+        
+        /* Enhanced PDF Viewer for Mobile */
+        .pdf-viewer-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
         /* Responsive Design */
         @media (max-width: 1024px) {
             .sidebar {
@@ -576,21 +641,35 @@
         }
         
         @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
             .main-container {
                 flex-direction: column;
             }
             
             .sidebar {
-                width: 100%;
-                height: auto;
-                max-height: 35vh;
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 85%;
+                height: 100%;
+                max-height: 100%;
                 border-right: none;
                 border-bottom: 1px solid #2c2c2e;
+                z-index: 100;
+                transition: left 0.3s ease;
+            }
+            
+            .sidebar.active {
+                left: 0;
             }
             
             .top-bar {
                 flex-direction: column;
                 gap: 12px;
+                padding-top: 60px;
             }
             
             .search-bar {
@@ -598,8 +677,8 @@
             }
             
             .book-cover-large {
-                width: 150px;
-                height: 225px;
+                width: 140px;
+                height: 210px;
             }
             
             .action-buttons {
@@ -615,15 +694,32 @@
             .podcast-links {
                 flex-wrap: wrap;
             }
+            
+            .header h1 {
+                font-size: 20px;
+                padding: 0 60px;
+            }
+            
+            .header p {
+                font-size: 14px;
+                padding: 0 50px;
+            }
+            
+            .coin-image, .dravida-image {
+                width: 50px;
+                height: 50px;
+            }
         }
         
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 20px;
+                font-size: 18px;
+                padding: 0 50px;
             }
             
             .header p {
-                font-size: 12px;
+                font-size: 13px;
+                padding: 0 40px;
             }
             
             .book-details h1 {
@@ -639,30 +735,47 @@
             }
             
             .pdf-toolbar {
-                padding: 8px 12px;
+                padding: 10px 12px;
             }
             
             .pdf-toolbar button {
-                padding: 6px 10px;
+                padding: 8px 12px;
                 font-size: 12px;
+            }
+            
+            .coin-image, .dravida-image {
+                width: 40px;
+                height: 40px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay" id="overlay"></div>
+
     <!-- Header -->
     <div class="header">
-        <h1>నాగబు ద్ధ</h1>
-        <p>చరిత్ర యొక్క తీర్పు కీళడి తవ్వకాలు మరియు భట్టిప్రోలు అవశేషాల పేటికలలో చెక్కబడింది – ఋగ్వేదం యొక్క చనిపోతున్న ఆవుల కేకలలో కాదు.</p>
+        <h1>𑀦𑀸𑀕𑀩𑀼𑀤𑁆𑀥</h1>
+        <p>చరిత్ర యొక్క తీర్పు కీళడి తవ్వకాలు మరియు భట్టిప్రోలు అవశేషాల పేటికలలో చెక్కబడింది – ఋగ్వేదம் యొక్క చనిపోతున్న ఆవుల కేకలలో కాదు.</p>
+        
+        <!-- Coin Image -->
+        <img src="./images/nagabu.JPG" alt="Coin" class="coin-image">
+        <img src="./images/Logo maker project.png" alt="dravida" class="dravida-image">
     </div>
-    
+
     <!-- Main Content -->
     <div class="main-container">
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <div class="logo">
                 <i class="fas fa-book-open"></i>
-                <span>తె த ಕ മ</span>
+                <span>తె த ಕ ಮ</span>
             </div>
             
             <div class="library-section">
@@ -727,7 +840,9 @@
                         </button>
                     </div>
                 </div>
-                <iframe class="pdf-viewer" id="pdf-viewer"></iframe>
+                <div class="pdf-viewer-container">
+                    <iframe class="pdf-viewer" id="pdf-viewer"></iframe>
+                </div>
                 <div class="pdf-error" id="pdf-error">
                     <i class="fas fa-exclamation-circle"></i>
                     <h3>Unable to Load PDF</h3>
@@ -762,7 +877,7 @@
     <!-- Footer -->
     <div class="footer">
         <div class="license">
-            <p>License by నాగబు ద్ధ &copy; 2022. All rights reserved.</p>
+            <p>License by నాగబు ద్ధ &copy; 2023. All rights reserved.</p>
         </div>
         
         <div class="podcast-links">
@@ -800,13 +915,13 @@
         // Folder and book library data
         const library = {
             folders: [
-                {
+                 {
                     id: 'folder1',
-                    name: 'Keeladi',
+                    name: 'కీళడి',
                     books: [
                         {
                             id: 'book1',
-                            title: "Keeladi/కీళడి",
+                            title: "కీళడి",
                             author: "నాగబు ద్ధ",
                             cover: "./images/Keeladi.jpg",
                             pdf: "./pdf/Keeladi.pdf",
@@ -825,7 +940,7 @@
                 title: "సవాలు చేస్తున్న కీళడి ఆధారాలు",
                 author: "నాగబు ద్ధ",
                 cover: "./images/keeladi2.jpg",
-                pdf: "./pdf/battiprolu.pdf",
+                pdf: "./pdf/సవాలు చేస్తున్న కీళడి ఆధారాలు.pdf",
                 description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
             },
               { 
@@ -835,12 +950,21 @@
                 cover: "./images/battiprolu.png",
                 pdf: "./pdf/కీళడి, భట్టిప్రోలు.pdf",
                 description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
+            },
+            { 
+                id: 'book5',
+                title: "కీళడి Short History",
+                author: "నాగబు ద్ధ",
+                cover: "./images/battiprolu.png",
+                pdf: "./pdf/keeladishort.pdf",
+                description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
             }
+            
                     ]
                 },
                 {
                     id: 'folder2',
-                    name: 'Tirupati',
+                    name: 'తిరుమల చరిత్ర',
                     books: [
                         {
                             id: 'book1',
@@ -859,6 +983,303 @@
                             description: "tirupathi was a buddhist temple. The temple was built in the 3-5th century CE by the Kalabra dynasty. The temple is dedicated to the Buddha and is one of the oldest Buddhist temples in India. The temple has a large statue of the Buddha and many smaller statues of Buddhist deities. The temple is also known for its beautiful architecture and intricate carvings."
                         },
                         
+                    ]
+                },
+                {
+                    id: 'folder3',
+                    name: 'రామాయణ రహస్యం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "రామాయణ రహస్యం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ramayana rahasyam.PNG",
+                            pdf: "./pdf/రామాయణ రహస్యం.pdf",
+                            description: "Rama has more than one wife in valmiki ramayana"
+                        },
+                        {
+                            id: 'book2',
+                            title: "సీత రాముడికి ఏమవుతుంది",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ramasita.PNG",
+                            pdf: "./pdf/సీత రాముడికి ఏమవుతుంది.pdf",
+                            description: "we need to look ramayana is a story no need to look like a god stories"
+                        },
+                        {
+                            id: 'book3',
+                            title: "ఆంజనేయుని తండ్రి ఎవరు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/anjaneyuni.PNG",
+                            pdf: "./pdf/ఆంజనేయుని తండ్రి ఎవరు.pdf",
+                            description: "we need to look ramayana is a story no need to look like a god stories"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder4',
+                    name: 'భిక్షువు సన్యాసి కాదు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "భిక్షువు సన్యాసి కాదు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/bikshu.png",
+                            pdf: "./pdf/భిక్షువు సన్యాసి కాదు.pdf",
+                            description: "The origins and development of Buddhism in India"
+                        },
+                        {
+                            id: 'book2',
+                            title: "అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/Ashoka's.jpg",
+                            pdf: "./pdf/అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు.pdf",
+                            description: "Ashoka was a follower of Buddhism before the Kalinga war, contrary to popular belief that he converted to Buddhism after the war."
+                        },
+                        
+                    ]
+                },
+                {
+                    id: 'folder5',
+                    name: 'ఇకాకు వంశం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "వశిష్ఠీపుత్ర సిరి చాంతమూలుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ikkaku.png",
+                            pdf: "./pdf/వశిష్ఠీపుత్ర సిరి చాంతమూలుడు.pdf",
+                            description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
+                        },
+                        {
+                            id: 'book2',
+                            title: "మాఠరీపుత్ర వీర పురుష దత్త",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/veerapurusha.png",
+                            pdf: "./pdf/సిరి విరపురిసదత్తస.pdf",
+                            description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
+                        },
+                         {
+                            id: 'book3',
+                            title: "మాఠరీపుత్ర వీర పురుష దత్త",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/veerapurusha.png",
+                            pdf: "./pdf/సిరి విరపురిసదత్తస.pdf",
+                            description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
+                        },
+                         {
+                            id: 'book4',
+                            title: "మాఠరీపుత్ర వీరపురుష దత్త ప్రాకృత శాసనం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/veerapurusha.png",
+                            pdf: "./pdf/Veera Purushadatta’s Prakrit inscription.pdf",
+                            description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder6',
+                    name: 'కలియుగం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "కలియుగం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/nagabu.JPG",
+                            pdf: "./pdf/కలియుగం.pdf",
+                            description: "In gargachari view point kaliyugam was ended in 165BCE but why bramhins still saying kaliyugam is going on?"
+                        },
+                         {
+                            id: 'book2',
+                            title: "ప్రాచీన ఆర్యుల వివాహాలు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/nagabu.JPG",
+                            pdf: "./pdf/ప్రాచీన ఆర్యుల వివాహాలు.pdf",
+                            description: "The marriage customs of ancient Aryans and their impact on society will shock you"
+                        },
+                        {
+                            id: 'book3',
+                            title: "నీతి మంతులైన ప్రాచీన ఋషులు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/nagabu.JPG",
+                            pdf: "./pdf/నీతి మంతులైన ప్రాచీన ఋషులు.pdf",
+                            description: "One of the worst things that happened in the history of India is the Aryan invasion, which led to the destruction of the Indus Valley civilization and the imposition of a new social order based on caste and class."
+                        }
+                    ]
+                },
+                
+                
+                {
+                    id: 'folder7',
+                    name: 'శూద్రులు ఎవరు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "శూద్రులు ఎవరు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/shudra.JPG",
+                            pdf: "./pdf/శూద్రులు ఎవరు.pdf",
+                            description: "divodasu was shudra king and vasista was his family priest. This book explores the origins of the Shudra caste and its historical significance in ancient India."
+                        },
+                         {
+                            id: 'book2',
+                            title: "బ్రాహ్మణుల అహంకారం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/bramhinaham.png",
+                            pdf: "./pdf/బ్రాహ్మణుల అహంకారం.pdf",
+                            description: "Bramhins are the most arrogant people in the world, they think they are superior to all other castes and that they are the only ones who can perform rituals and ceremonies.(Those rituals are full of lies and superstitions)"
+                        },
+                         {
+                            id: 'book3',
+                            title: "పగ తీర్చుకున్న బ్రాహ్మణులు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/pagatirchu.jpg",
+                            pdf: "./pdf/పగ తీర్చుకున్న బ్రాహ్మణులు.pdf",
+                            description: "Bramhins are the most arrogant people in the world, they think they are superior to all other castes and that they are the only ones who can perform rituals and ceremonies.(Those rituals are full of lies and superstitions)"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder8',
+                    name: 'తెలుగు లిపి మార్పు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "తెలుగు లిపి మార్పు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/telugulipmarpu.JPG",
+                            pdf: "./pdf/తెలుగు లిపి మార్పు.pdf",
+                            description: "How Telugu script has changed over the years and its impact on literature. This book explores the evolution of the Telugu script and its significance in preserving the language and culture."
+                        }
+                    ]
+                },
+                {
+                    id: 'folder9',
+                    name: 'హిందీ',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "హిందీ",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/hindi.JPEG",
+                            pdf: "./pdf/హిందీ.pdf",
+                            description: "we don't need to learn hindi. we have to lern dravidian languages like Tamil, Telugu, Kannada and Malayalam."
+                        }
+                    ]
+                },
+                {
+                    id: 'folder10',
+                    name: 'వేదాల రచన కాలం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "వేదాల రచన కాలం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/nagabu.JPG",
+                            pdf: "./pdf/వేదాల రచన కాలం.pdf",
+                            description: "vedas were written in 6-8th century ce and not in 1500 BCE as claimed by bramhins. This book discusses the historical context and timeline of the Vedas' composition, challenging traditional beliefs about their origins."
+                        },
+                        {
+                            id: 'book2',
+                            title: "రామాయణ,మహాభారతాల రచన కాలం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/nagabu.JPG",
+                            pdf: "./pdf/రామాయణ, మహాభారతాల.pdf",
+                            description: "in rahul samskritayan's view point ramayana and mahabharata were written in 6-8th century ce and not in 1500 BCE as claimed by bramhins. This book explores the timeline of the Ramayana and Mahabharata's composition, providing insights into their historical significance."
+                        },
+                        {
+                            id: 'book3',
+                            title: "శైవ తిలకం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/shivathilakam.jpeg",
+                            pdf: "./pdf/శైవ తిలకం.pdf",
+                            description: "after 11th century ce shiva tilakam came into existence and it is not a vedic text as claimed by bramhins. This book examines the origins of the Shiva Tilakam and its role in shaping Shaivism in South India."
+                        },
+                        {
+                            id: 'book4',
+                            title: "వైష్ణవ తిలకం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/vaishavathilakam.jpeg",
+                            pdf: "./pdf/వైష్ణవ తిలకం.pdf",
+                            description: "after ramanuja's time vaishnava tilakam came into existence and it is not a vedic text as claimed by bramhins. This book explores the origins of the Vaishnava Tilakam and its influence on Vaishnavism in South India."
+                        },
+                         {
+                            id: 'book5',
+                            title: "ఏంటి హిందూ మతం గొప్ప",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/satisahagamanam.webp",
+                            pdf: "./pdf/ఏంటి హిందూ మతం గొప్ప.pdf",
+                            description: "hindu religion is not great and it is a religion of superstitions and lies. This book critically examines the claims of Hinduism's greatness, highlighting its historical and cultural complexities."
+                        }
+                    ]
+                },
+                {
+                    id: 'folder11',
+                    name: 'బౌద్ధ',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "బౌద్ధ దర్శనం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/buddha.jpg",
+                            pdf: "./pdf/బౌద్ధ దర్శనం.pdf",
+                            description: "Philosophy of Buddhism"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder12',
+                    name: 'జైనం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "జైనం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/jain.jpg",
+                            pdf: "./pdf/జైనం.pdf",
+                            description: "Jain philosophy and history"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder13',
+                    name: 'చార్వాకం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "చార్వాకం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/charvaka.jpg",
+                            pdf: "./pdf/చార్వాకం.pdf",
+                            description: "Materialist philosophy of Charvaka"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder14',
+                    name: 'ఆధునిక భారతం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "ఆధునిక భారతం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/modern.jpg",
+                            pdf: "./pdf/ఆధునిక భారతం.pdf",
+                            description: "Modern Indian history"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder15',
+                    name: 'అర్థశాస్త్రం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "అర్థశాస్త్రం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/economics.jpg",
+                            pdf: "./pdf/అర్థశాస్త్రం.pdf",
+                            description: "Economic history of ancient India"
+                        }
                     ]
                 }
             ]
@@ -885,6 +1306,9 @@
         const searchInput = document.getElementById('search-input');
         const newFolderBtn = document.getElementById('new-folder-btn');
         const collapseAllBtn = document.getElementById('collapse-all-btn');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
 
         // Current state
         let currentBookId = 'book1';
@@ -894,6 +1318,22 @@
         // Generate a unique ID
         function generateId() {
             return Math.random().toString(36).substring(2) + Date.now().toString(36);
+        }
+
+        // Toggle mobile sidebar
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Change icon based on state
+            const icon = mobileMenuBtn.querySelector('i');
+            if (sidebar.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         }
 
         // Initialize the library
@@ -941,7 +1381,13 @@
                         <span class="pdf-badge">PDF</span>
                     `;
                     
-                    bookLi.addEventListener('click', () => loadBook(book.id, folder.id));
+                    bookLi.addEventListener('click', () => {
+                        loadBook(book.id, folder.id);
+                        // Close sidebar on mobile after selection
+                        if (window.innerWidth <= 768) {
+                            toggleSidebar();
+                        }
+                    });
                     bookList.appendChild(bookLi);
                 });
                 
@@ -1131,8 +1577,7 @@
                 // If the PDF doesn't load within 3 seconds, show error
                 try {
                     if (!pdfViewer.contentDocument || 
-                        pdfViewer.contentDocument.readyState !== 'complete' || 
-                        pdfViewer.contentDocument.querySelector('embed') === null) {
+                        pdfViewer.contentDocument.readyState !== 'complete') {
                         showPdfError();
                     }
                 } catch (e) {
@@ -1201,6 +1646,25 @@
         newFolderBtn.addEventListener('click', createNewFolder);
         
         collapseAllBtn.addEventListener('click', collapseAllFolders);
+        
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleSidebar();
+        });
+        
+        overlay.addEventListener('click', function() {
+            toggleSidebar();
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768 && 
+                sidebar.classList.contains('active') && 
+                !sidebar.contains(e.target) && 
+                e.target !== mobileMenuBtn) {
+                toggleSidebar();
+            }
+        });
 
         // Close modals when clicking outside
         window.addEventListener('click', (e) => {   
