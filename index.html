@@ -43,7 +43,210 @@
             z-index: 100;
             position: relative;
         }
+         /* Header Styles - FIXED FOR MOBILE */
+        .header {
+            background: linear-gradient(45deg, var(--accent-color), #ff3b30);
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
         
+         .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            padding: 0 80px; /* Added padding for desktop */
+        }
+        
+        .header-message {
+            font-size: 14px;
+            opacity: 0.9;
+            max-width: 100%;
+            margin: 0 auto;
+            line-height: 1.4;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+            padding: 0 80px; /* Added padding for desktop */
+        }
+        
+        .header-message.fade-out {
+            opacity: 0;
+        }
+        
+        .header-message.fade-in {
+            opacity: 0.9;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            max-width: 100%;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+        
+        .coin-image, .dravida-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .coin-image {
+            right: 10px;
+        }
+        
+        .dravida-image {
+            left: 10px;
+        }
+        /* Recent Uploads Section */
+        .recent-uploads-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #3a3a3c;
+            padding-bottom: 15px;
+        }
+
+        .recent-uploads-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .recent-upload-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: rgba(255, 45, 85, 0.1);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .recent-upload-item:hover {
+            background-color: rgba(255, 45, 85, 0.2);
+        }
+
+        .recent-upload-icon {
+            margin-right: 10px;
+            color: var(--accent-color);
+            font-size: 12px;
+        }
+
+        .recent-upload-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .recent-upload-title {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-upload-meta {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .new-badge {
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 8px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+        
+        /* Mobile Responsive Fixes */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 18px;
+                padding: 0 70px; /* Reduced padding for mobile */
+                margin-bottom: 8px;
+            }
+            
+            .header-message {
+                font-size: 13px;
+                padding: 0 60px; /* Reduced padding for mobile */
+                line-height: 1.3;
+            }
+            
+            .coin-image, .dravida-image {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .coin-image {
+                right: 8px;
+            }
+            
+            .dravida-image {
+                left: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 16px;
+                padding: 0 60px; /* Further reduced padding for small mobile */
+                margin-bottom: 6px;
+            }
+            
+            .header-message {
+                font-size: 12px;
+                padding: 0 50px; /* Further reduced padding for small mobile */
+                line-height: 1.2;
+            }
+            
+            .coin-image, .dravida-image {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .coin-image {
+                right: 6px;
+            }
+            
+            .dravida-image {
+                left: 6px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 14px;
+                padding: 0 50px; /* Minimum padding for very small screens */
+            }
+            
+            .header-message {
+                font-size: 11px;
+                padding: 0 45px; /* Minimum padding for very small screens */
+            }
+            
+            .coin-image, .dravida-image {
+                width: 35px;
+                height: 35px;
+            }
+        }
         .header h1 {
             font-size: 22px;
             font-weight: 700;
