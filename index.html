@@ -775,9 +775,17 @@
         <div class="sidebar" id="sidebar">
             <div class="logo">
                 <i class="fas fa-book-open"></i>
-                <span>తె த ಕ ಮ</span>
+                <span>తె த ಕ മ</span>
             </div>
-            
+             <!-- Recent Uploads Section -->
+            <div class="recent-uploads-section">
+                <h3 class="section-title">
+                    <i class="fas fa-clock"></i> Recent Uploads
+                </h3>
+                <ul class="recent-uploads-list" id="recent-uploads-list">
+                    <!-- Recent uploads will be dynamically added here -->
+                </ul>
+            </div>
             <div class="library-section">
                 <h3 class="section-title">
                     My Library
@@ -873,7 +881,131 @@
             </div>
         </div>
     </div>
+ <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- ... (rest of your HTML content remains the same) ... -->
+        </div>
+    </div>
 
+    <script>
+        // Rotating header messages
+        const headerMessages = [
+            "సత్యం ఎప్పుడూ పురావస్తు  తవ్వకాలలోనే దాగి ఉంటుంది, పురాణాలలో కాదు. పురాణాలు బ్రాహ్మణులు రచించిన నకిలీ గ్రంధాలు",
+            "పురాణాలలో ఆవగింజ అంత ఐన చరిత్ర ఉండదు.పురాణాలు బ్రాహ్మణుల పొట్ట కూటి కోసం రచించిన గ్రంధాలు మాత్రమే. పురాణం ఎప్పటికి చరిత్ర కాదు",
+            "కీళడి, భట్టిప్రోలు నాగరికతలు  ద్రావిడ సంస్కృతికి సాక్ష్యం.",
+            "కలభ్రుల చరిత్రను బ్రాహ్మణులు మరుగున పెట్టారు, కానీ శాసనాలు మాట్లాడుతున్నాయి.",
+ "తిరుమల బౌద్ధ మందిరం. బ్రాహ్మణులు దానిని ఆక్రమించి అవలోకితేశ్వరుడిని వెంకటేశ్వరునిగా మార్చి ఇప్పుడు హిందూ దేవాలయంగా అర్ధం లేని ఆచారాలు చేస్తున్నారు.",
+            "సత్యాన్వేషణకు పురావస్తు, చరిత్ర మార్గదర్శకం, పురాణాలు కాదు.పురాణాలు బ్రాహ్మణుల సృష్టి ",
+" కృష్ణ కావేరి నదుల ప్రవాహం ఎంత పెద్దవైనా ఆ మహానదులు మహా సముద్రంలో చేరినప్పుడు వాటి పాత పేరును స్వభావాన్ని కోల్పోతాయి అలాగే సంఘంలో చేరే వారు వారి కులంను కోల్పోయి సమానులు అవుతారు",
+"గంగా నదిలో స్నానం చేయటం వలన పుణ్యం లభిస్తే మత్స్యకారులు నిజానికి అత్యంత పుణ్యాత్ములు అవ్వాలి ఇక రోజు గంగలోనే ఉండే చేపలు మరియు ఇతర జంతువుల గురించి చెప్పనవసరం లేదు "
+        ];
+
+        let currentMessageIndex = 0;
+        const headerMessageElement = document.getElementById('header-message');
+        const messageChangeInterval = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+        function rotateHeaderMessage() {
+            // Fade out current message
+            headerMessageElement.classList.add('fade-out');
+            
+            setTimeout(() => {
+                // Change message
+                currentMessageIndex = (currentMessageIndex + 1) % headerMessages.length;
+                headerMessageElement.textContent = headerMessages[currentMessageIndex];
+                
+                // Fade in new message
+                headerMessageElement.classList.remove('fade-out');
+                headerMessageElement.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    headerMessageElement.classList.remove('fade-in');
+                }, 500);
+            }, 500);
+        }
+
+        // Start rotating messages
+        setInterval(rotateHeaderMessage, messageChangeInterval);
+
+        // Recent uploads functionality
+        function getRecentUploads() {
+            // Get all books from all folders and sort by a timestamp or use the last 5 added
+            // For now, we'll take the last 2 books from each of the first 3 folders as recent
+            const recentBooks = [];
+            
+            // Add some logic to determine recent files - you can modify this based on your actual data structure
+            library.folders.slice(0, 3).forEach(folder => {
+                const folderRecentBooks = folder.books.slice(-2); // Last 2 books from each folder
+                folderRecentBooks.forEach(book => {
+                    recentBooks.push({
+                        ...book,
+                        folderId: folder.id,
+                        folderName: folder.name
+                    });
+                });
+            });
+            
+            // Sort by some criteria (you can add a timestamp property to books for proper sorting)
+            return recentBooks.slice(0, 5); // Return top 5 recent uploads
+        }
+
+        function initializeRecentUploads() {
+            const recentUploadsList = document.getElementById('recent-uploads-list');
+            const recentBooks = getRecentUploads();
+            
+            recentUploadsList.innerHTML = '';
+            
+            if (recentBooks.length === 0) {
+                recentUploadsList.innerHTML = `
+                    <li class="recent-upload-item">
+                        <div class="recent-upload-info">
+                            <div class="recent-upload-title">No recent uploads</div>
+                        </div>
+                    </li>
+                `;
+                return;
+            }
+            
+            recentBooks.forEach(book => {
+                const li = document.createElement('li');
+                li.classList.add('recent-upload-item');
+                li.innerHTML = `
+                    <i class="fas fa-file-pdf recent-upload-icon"></i>
+                    <div class="recent-upload-info">
+                        <div class="recent-upload-title">
+                            ${book.title}
+                            <span class="new-badge">NEW</span>
+                        </div>
+                        <div class="recent-upload-meta">${book.folderName} • ${book.author}</div>
+                    </div>
+                `;
+                
+                li.addEventListener('click', () => {
+                    loadBook(book.id, book.folderId);
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+                
+                recentUploadsList.appendChild(li);
+            });
+        }
+
+        // Modify your existing initializeLibrary function to include recent uploads
+        function initializeLibrary() {
+            initializeRecentUploads(); // Initialize recent uploads section
+            
+            // ... rest of your existing initializeLibrary code ...
+        }
+
+        // Your existing library data and other JavaScript code remains the same
+        // ... (all your existing JavaScript code) ...
+
+        // Initialize the app
+        initializeLibrary();
+        loadBook('book1', 'folder1');
+    </script>
+</body>
+</html>
     <!-- Footer -->
     <div class="footer">
         <div class="license">
