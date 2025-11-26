@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>తె த ಕ മ - PDF Reader</title>
+    <title>తె த ಕ മ - తొంగి చూడు చరిత్రలోకి </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -43,7 +43,210 @@
             z-index: 100;
             position: relative;
         }
+         /* Header Styles - FIXED FOR MOBILE */
+        .header {
+            background: linear-gradient(45deg, var(--accent-color), #ff3b30);
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
         
+         .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            padding: 0 80px; /* Added padding for desktop */
+        }
+        
+        .header-message {
+            font-size: 14px;
+            opacity: 0.9;
+            max-width: 100%;
+            margin: 0 auto;
+            line-height: 1.4;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+            padding: 0 80px; /* Added padding for desktop */
+        }
+        
+        .header-message.fade-out {
+            opacity: 0;
+        }
+        
+        .header-message.fade-in {
+            opacity: 0.9;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+            max-width: 100%;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+        
+        .coin-image, .dravida-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .coin-image {
+            right: 10px;
+        }
+        
+        .dravida-image {
+            left: 10px;
+        }
+        /* Recent Uploads Section */
+        .recent-uploads-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #3a3a3c;
+            padding-bottom: 15px;
+        }
+
+        .recent-uploads-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .recent-upload-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: rgba(255, 45, 85, 0.1);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .recent-upload-item:hover {
+            background-color: rgba(255, 45, 85, 0.2);
+        }
+
+        .recent-upload-icon {
+            margin-right: 10px;
+            color: var(--accent-color);
+            font-size: 12px;
+        }
+
+        .recent-upload-info {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .recent-upload-title {
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-upload-meta {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .new-badge {
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 8px;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+        
+        /* Mobile Responsive Fixes */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 18px;
+                padding: 0 70px; /* Reduced padding for mobile */
+                margin-bottom: 8px;
+            }
+            
+            .header-message {
+                font-size: 13px;
+                padding: 0 60px; /* Reduced padding for mobile */
+                line-height: 1.3;
+            }
+            
+            .coin-image, .dravida-image {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .coin-image {
+                right: 8px;
+            }
+            
+            .dravida-image {
+                left: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 16px;
+                padding: 0 60px; /* Further reduced padding for small mobile */
+                margin-bottom: 6px;
+            }
+            
+            .header-message {
+                font-size: 12px;
+                padding: 0 50px; /* Further reduced padding for small mobile */
+                line-height: 1.2;
+            }
+            
+            .coin-image, .dravida-image {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .coin-image {
+                right: 6px;
+            }
+            
+            .dravida-image {
+                left: 6px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 14px;
+                padding: 0 50px; /* Minimum padding for very small screens */
+            }
+            
+            .header-message {
+                font-size: 11px;
+                padding: 0 45px; /* Minimum padding for very small screens */
+            }
+            
+            .coin-image, .dravida-image {
+                width: 35px;
+                height: 35px;
+            }
+        }
         .header h1 {
             font-size: 22px;
             font-weight: 700;
@@ -762,7 +965,9 @@
     <!-- Header -->
     <div class="header">
         <h1>𑀦𑀸𑀕𑀩𑀼𑀤𑁆𑀥</h1>
-        <p>చరిత్ర యొక్క తీర్పు కీళడి తవ్వకాలు మరియు భట్టిప్రోలు అవశేషాల పేటికలలో చెక్కబడింది – ఋగ్వేదம் యొక్క చనిపోతున్న ఆవుల కేకలలో కాదు.</p>
+        <div class="header-message" id="header-message">
+           చరిత్ర యొక్క తీర్పు కీళడి తవ్వకాలు మరియు భట్టిప్రోలు అవశేషాల పేటికలలో చెక్కబడింది – ఋగ్వేదம் యొక్క చనిపోతున్న ఆవుల కేకలలో కాదు.
+        </div>
         
         <!-- Coin Image -->
         <img src="./images/nagabu.JPG" alt="Coin" class="coin-image">
@@ -775,9 +980,17 @@
         <div class="sidebar" id="sidebar">
             <div class="logo">
                 <i class="fas fa-book-open"></i>
-                <span>తె த ಕ ಮ</span>
+                <span>తె த ಕ മ</span>
             </div>
-            
+             <!-- Recent Uploads Section -->
+            <div class="recent-uploads-section">
+                <h3 class="section-title">
+                    <i class="fas fa-clock"></i> Recent Uploads
+                </h3>
+                <ul class="recent-uploads-list" id="recent-uploads-list">
+                    <!-- Recent uploads will be dynamically added here -->
+                </ul>
+            </div>
             <div class="library-section">
                 <h3 class="section-title">
                     My Library
@@ -873,7 +1086,134 @@
             </div>
         </div>
     </div>
+ <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- ... (rest of your HTML content remains the same) ... -->
+        </div>
+    </div>
 
+    <script>
+        // Rotating header messages
+        const headerMessages = [
+            "చరిత్ర యొక్క తీర్పు కీళడి తవ్వకాలు మరియు భట్టిప్రోలు అవశేషాల పేటికలలో చెక్కబడింది – ఋగ్వేదம் యొక్క చనిపోతున్న ఆవుల కేకలలో కాదు.",
+            "మీరు శాస్త్రవేత్తలుగా, వైద్యులుగా, కళాకారులుగా మారినా చరిత్ర తెలుసుకోకపోతే మూఢ నమ్మకాల(దైవం)కు తలవంచాల్సిందే, బ్రాహ్మణుడి సొల్లు వినాల్సిందే.",
+            "సత్యం ఎప్పుడూ పురావస్తు  తవ్వకాలలోనే దాగి ఉంటుంది, పురాణాలలో కాదు. పురాణాలు బ్రాహ్మణులు రచించిన నకిలీ గ్రంధాలు",
+            "పురాణాలలో ఆవగింజ అంత ఐన చరిత్ర ఉండదు. పురాణాలు బ్రాహ్మణుల పొట్ట కూటి కోసం రచించిన గ్రంధాలు మాత్రమే. పురాణం ఎప్పటికి చరిత్ర కాదు",
+            "బ్రాహ్మణులు పురాణాలను ద్రవిడ చరిత్రను, లిపులను, సంస్కృతులను, నాగరికతలను కించపరచటానికి రాసిన గ్రంథాలు మాత్రమే",
+            "కీళడి, భట్టిప్రోలు నాగరికతలు  ద్రావిడ సంస్కృతులకు సాక్ష్యం.",
+            "కలభ్రుల చరిత్రను బ్రాహ్మణులు మరుగున పెట్టారు, కానీ శాసనాలు మాట్లాడుతున్నాయి.",
+ "తిరుమల బౌద్ధ మందిరం. బ్రాహ్మణులు దానిని ఆక్రమించి అవలోకితేశ్వరుడిని వెంకటేశ్వరునిగా మార్చి ఇప్పుడు హిందూ దేవాలయంగా అర్ధం లేని ఆచారాలు చేస్తున్నారు.",
+            "సత్యాన్వేషణకు చరిత్ర, పురావస్తు తవ్వకాలు మార్గదర్శకం, పురాణాలు కాదు. పురాణాలు బ్రాహ్మణుల సృష్టి ",
+    "కృష్ణ కావేరి నదుల ప్రవాహం ఎంత పెద్దవైనా ఆ మహానదులు మహా సముద్రంలో చేరినప్పుడు వాటి పాత పేరును స్వభావాన్ని కోల్పోతాయి అలాగే సంఘంలో చేరే వారు వారి కులంను కోల్పోయి సమానులు అవుతారు",
+"గంగా నదిలో స్నానం చేయటం వలన పుణ్యం లభిస్తే మత్స్యకారులు నిజానికి అత్యంత పుణ్యాత్ములు అవ్వాలి ఇక రోజు గంగలోనే ఉండే చేపలు మరియు ఇతర జంతువుల గురించి చెప్పనవసరం లేదు"
+        ];
+
+        let currentMessageIndex = 0;
+        const headerMessageElement = document.getElementById('header-message');
+        const messageChangeInterval = 1 * 60 * 1000; // 1 minutes in milliseconds
+
+        function rotateHeaderMessage() {
+            // Fade out current message
+            headerMessageElement.classList.add('fade-out');
+            
+            setTimeout(() => {
+                // Change message
+                currentMessageIndex = (currentMessageIndex + 1) % headerMessages.length;
+                headerMessageElement.textContent = headerMessages[currentMessageIndex];
+                
+                // Fade in new message
+                headerMessageElement.classList.remove('fade-out');
+                headerMessageElement.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    headerMessageElement.classList.remove('fade-in');
+                }, 500);
+            }, 500);
+        }
+
+        // Start rotating messages
+        setInterval(rotateHeaderMessage, messageChangeInterval);
+
+        // Recent uploads functionality
+        function getRecentUploads() {
+            // Get all books from all folders and sort by a timestamp or use the last 5 added
+            // For now, we'll take the last 2 books from each of the first 3 folders as recent
+            const recentBooks = [];
+            
+            // Add some logic to determine recent files - you can modify this based on your actual data structure
+            library.folders.slice(0, 3).forEach(folder => {
+                const folderRecentBooks = folder.books.slice(-2); // Last 2 books from each folder
+                folderRecentBooks.forEach(book => {
+                    recentBooks.push({
+                        ...book,
+                        folderId: folder.id,
+                        folderName: folder.name
+                    });
+                });
+            });
+            
+            // Sort by some criteria (you can add a timestamp property to books for proper sorting)
+            return recentBooks.slice(0, 5); // Return top 5 recent uploads
+        }
+
+        function initializeRecentUploads() {
+            const recentUploadsList = document.getElementById('recent-uploads-list');
+            const recentBooks = getRecentUploads();
+            
+            recentUploadsList.innerHTML = '';
+            
+            if (recentBooks.length === 0) {
+                recentUploadsList.innerHTML = `
+                    <li class="recent-upload-item">
+                        <div class="recent-upload-info">
+                            <div class="recent-upload-title">No recent uploads</div>
+                        </div>
+                    </li>
+                `;
+                return;
+            }
+            
+            recentBooks.forEach(book => {
+                const li = document.createElement('li');
+                li.classList.add('recent-upload-item');
+                li.innerHTML = `
+                    <i class="fas fa-file-pdf recent-upload-icon"></i>
+                    <div class="recent-upload-info">
+                        <div class="recent-upload-title">
+                            ${book.title}
+                            <span class="new-badge">NEW</span>
+                        </div>
+                        <div class="recent-upload-meta">${book.folderName} • ${book.author}</div>
+                    </div>
+                `;
+                
+                li.addEventListener('click', () => {
+                    loadBook(book.id, book.folderId);
+                    if (window.innerWidth <= 768) {
+                        toggleSidebar();
+                    }
+                });
+                
+                recentUploadsList.appendChild(li);
+            });
+        }
+
+        // Modify your existing initializeLibrary function to include recent uploads
+        function initializeLibrary() {
+            initializeRecentUploads(); // Initialize recent uploads section
+            
+            // ... rest of your existing initializeLibrary code ...
+        }
+
+        // Your existing library data and other JavaScript code remains the same
+        // ... (all your existing JavaScript code) ...
+
+        // Initialize the app
+        initializeLibrary();
+        loadBook('book1', 'folder1');
+    </script>
+</body>
+</html>
     <!-- Footer -->
     <div class="footer">
         <div class="license">
@@ -914,8 +1254,7 @@
     <script>
         // Folder and book library data
         const library = {
-            folders: [
-                 {
+            folders: [{
                     id: 'folder1',
                     name: 'కీళడి',
                     books: [
@@ -959,8 +1298,16 @@
                 pdf: "./pdf/భట్టిప్రోలు పతనం.pdf",
                 description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
             },
-            { 
+                         { 
                 id: 'book6',
+                title: "భట్టిప్రోలు శాసనం",
+                author: "నాగబు ద్ధ",
+                cover: "./images/battiprolu inscription.png.webp",
+                pdf: "./pdf/ భట్టిప్రోలు శాసనం 𑀫𑀼.pdf",
+                description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
+            },
+            { 
+                id: 'book7',
                 title: "కీళడి Short History",
                 author: "నాగబు ద్ధ",
                 cover: "./images/battiprolu.png",
@@ -968,7 +1315,7 @@
                 description: "Bhattiprolu stupa inscriptions in early Brahmi script, oldest Prakrit Buddhist records. Bhattiprolu is a village in the Guntur district of Andhra Pradesh, India. It is known for its ancient Buddhist stupa and the discovery of crystal caskets containing relics of the Buddha. The inscriptions found here are some of the earliest examples of Brahmi script in South India."
             },
             { 
-                id: 'book7',
+                id: 'book8',
                 title: "కీళడి :భట్టిప్రోలు పతనం",
                 author: "నాగబు ద్ధ",
                 cover: "./images/battiprolu.png",
@@ -980,6 +1327,28 @@
                 },
                 {
                     id: 'folder2',
+                    name: '*అంగుళీమాలుడి చరిత్ర',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "అంగుళీమాలుడి చరిత్ర",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/angulimala.png",
+                            pdf: "./pdf/అంగుళీమాలుడి చరిత్ర .pdf",
+                            description: "ahimsaka became angulimala because of brahminical oppression and angulimala turned to ahimsaka after meeting buddha and became a buddhist monk"
+                        },
+                        {
+                            id: 'book2',
+                            title: "బుద్ధుని జుట్టుఅలంకారం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/budha-curly.jpg",
+                            pdf: "./pdf/బుద్ధుని జుట్టుఅలంకారం.pdf",
+                            description: "buddha curly hair is a symbol for dravida identity"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder3',
                     name: 'తిరుమల చరిత్ర',
                     books: [
                         {
@@ -998,64 +1367,157 @@
                             pdf: "./pdf/రామానుజుడు మరియు తిరుచోకినూర్ స్వామి.pdf",
                             description: "tirupathi was a buddhist temple. The temple was built in the 3-5th century CE by the Kalabra dynasty. The temple is dedicated to the Buddha and is one of the oldest Buddhist temples in India. The temple has a large statue of the Buddha and many smaller statues of Buddhist deities. The temple is also known for its beautiful architecture and intricate carvings."
                         },
-                        
+                        {
+                            id: 'book3',
+                            title: " అవలోకితేశ్వరుడు -> మహేశ్వరుడు -> వెంకటేశ్వరుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ramanuja.png",
+                            pdf: "./pdf/అవలోకితేశ్వరుడు -> మహేశ్వరుడు -> వెంకటేశ్వరుడు .pdf",
+                            description: "tirupathi was a buddhist temple. The temple was built in the 3-5th century CE by the Kalabra dynasty. The temple is dedicated to the Buddha and is one of the oldest Buddhist temples in India. The temple has a large statue of the Buddha and many smaller statues of Buddhist deities. The temple is also known for its beautiful architecture and intricate carvings."
+                        },
+                       {
+                            id: 'book4',
+                            title: " ఆళ్వార్ల అద్భుతం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/myview.jpg",
+                            pdf: "./pdf/ఆళ్వార్ల అద్భుతం .pdf",
+                            description: "tirupathi was a buddhist temple. The temple was built in the 3-5th century CE by the Kalabra dynasty. The temple is dedicated to the Buddha and is one of the oldest Buddhist temples in India. The temple has a large statue of the Buddha and many smaller statues of Buddhist deities. The temple is also known for its beautiful architecture and intricate carvings."
+                        },
+                        {
+                            id: 'book5',
+                            title: " బ్రాహ్మణ శకం ముగింపు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/myview.jpg",
+                            pdf: "./pdf/బ్రాహ్మణ శకం ముగింపు.pdf",
+                            description: "tirupathi was a buddhist temple. The temple was built in the 3-5th century CE by the Kalabra dynasty. The temple is dedicated to the Buddha and is one of the oldest Buddhist temples in India. The temple has a large statue of the Buddha and many smaller statues of Buddhist deities. The temple is also known for its beautiful architecture and intricate carvings."
+                        },
                     ]
                 },
-                {
-                    id: 'folder3',
-                    name: 'రామాయణ రహస్యం',
+                       {
+                    id: 'folder4',
+                    name: 'ఉండవల్లి,శ్రీశైల,అహోబిలం చరిత్ర్ర',
                     books: [
                         {
                             id: 'book1',
-                            title: "రామాయణ రహస్యం",
+                            title: "ఉండవల్లి చరిత్ర",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/ramayana rahasyam.PNG",
-                            pdf: "./pdf/రామాయణ రహస్యం.pdf",
-                            description: "Rama has more than one wife in valmiki ramayana"
+                            cover: "./images/myview.jpg",
+                            pdf: "./pdf/ఉండవల్లి చరిత్ర  .pdf",
+                            description: "Undavali is a buddhist site bramhins occupied it and changed the history"
                         },
                         {
                             id: 'book2',
-                            title: "సీత రాముడికి ఏమవుతుంది",
+                            title: "శ్రీశైల చరిత్ర",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/ramasita.PNG",
-                            pdf: "./pdf/సీత రాముడికి ఏమవుతుంది.pdf",
-                            description: "we need to look ramayana is a story no need to look like a god stories"
+                            cover: "./images/mallikarjun-jyotirlinga.jpg",
+                            pdf: "./pdf/శ్రీశైల చరిత్ర .pdf",
+                            description: "Srisailam is chenchu's site bramhins occupied it and changed the history"
+                        },
+                          {
+                            id: 'book3',
+                            title: "అహోబిలం చరిత్ర",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ahobilam-temple.jpg",
+                            pdf: "./pdf/అహోబిలం చరిత్ర.pdf",
+                            description: "ahobilam is buddhist/jain site bramhins occupied it and changed the history"
+                        },
+                    ]},
+                {
+                    id: 'folder5',
+                    name: 'కలభ్రుల చరిత్ర',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "కలభ్రులు ఎవరు?",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/కలభ్రులు ఎవరు.pdf",
+                            description: "kalabras are buddhist rulers who ruled tamil nadu between 3rd to 6th century CE"
+                        },
+                        {
+                            id: 'book2',
+                            title: "కలభ్రుల లిపి",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/vatteluttu script.png.jpg",
+                            pdf: "./pdf/కలభ్రుల లిపి.pdf",
+                            description: "kalabras used vatteluttu script which is looks very different from previous tamil brahmi scripts"
                         },
                         {
                             id: 'book3',
-                            title: "ఆంజనేయుని తండ్రి ఎవరు",
+                            title: "కలభ్రుల నాగ సంబంధం",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/anjaneyuni.PNG",
-                            pdf: "./pdf/ఆంజనేయుని తండ్రి ఎవరు.pdf",
-                            description: "we need to look ramayana is a story no need to look like a god stories"
-                        }
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/కలభ్రుల నాగ సంబంధం.pdf",
+                            description: "we need to look for nagas to find out the history of kalabras and buddhism in south india"
+                        },
+                        {
+                            id: 'book4',
+                            title: "వేచి ఉంది కలభ్రుల చరిత్ర",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/వేచి ఉంది కలభ్రుల చరిత్ర.pdf",
+                            description: "we need to look for tirumala hills to find out the history of kalabras and buddhism in south india"
+                        },
+                        {
+                            id: 'book5',
+                            title: "అవలోకితేశ్వరుడు -> మహేశ్వరుడు -> వెంకటేశ్వరుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/అవలోకితేశ్వరుడు మహేశ్వరుడు  వెంకటేశ్వరుడు .pdf",
+                            description: "the change of avalokiteshwara to maheswara to venkateshwara is bramhin propaganda to defame buddhism"
+                        },
+                        {
+                            id: 'book6',
+                            title: "శండ కథ",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/శండ కథ.pdf",
+                            description: "it's all bramhin propaganda to defame sramana traditions"
+                        },
+                         {
+                            id: 'book7',
+                            title: "ఆకాశ రాజు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/ఆకాశ రాజు.pdf",
+                            description: "bramhin puranas says kings who don't supported bramhins they created sramana religion kings to rakshasas and sarpas because they are against bramhins"
+                        },
+                        {
+                            id: 'book8',
+                            title: "పుల్లికునారం వేంగడం  సిరి మళ్ళై  తిరుమల",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/పుల్లికునారం వేంగడం సిరి మళ్ళై తిరుమల.pdf",
+                            description: "kalabhra history is missing in tamil history books because Brahmins destroyed all the records"
+                        },
+                        {
+                            id: 'book9',
+                            title: "పుల్లికున్రం నుండి తిరుమల",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/పుల్లికున్రం నుండి తిరుమల.pdf",
+                            description: "kalabhra history is missing in tamil history books because Brahmins destroyed all the records"
+                        },
+                        {
+                            id: 'book10',
+                            title: "తిరుమల బౌద్ధ ఆలయం శాసన ఆధారాలు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./pdf/తిరుమల బౌద్ధ ఆలయం శాసన ఆధారాలు.pdf",
+                            description: "kalabhra history is missing in tamil history books because Brahmins destroyed all the records"
+                        },
+                        {
+                            id: 'book11',
+                            title: "కలభ్రుల చరిత్ర",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/dipam.png",
+                            pdf: "./images/కలభ్రుల చరిత్ర .pdf",
+                            description: "kalabhra history is missing in tamil history books because Brahmins destroyed all the records"
+                        },
                     ]
                 },
                 {
-                    id: 'folder4',
-                    name: 'భిక్షువు సన్యాసి కాదు',
-                    books: [
-                        {
-                            id: 'book1',
-                            title: "భిక్షువు సన్యాసి కాదు",
-                            author: "నాగబు ద్ధ",
-                            cover: "./images/bikshu.png",
-                            pdf: "./pdf/భిక్షువు సన్యాసి కాదు.pdf",
-                            description: "The origins and development of Buddhism in India"
-                        },
-                        {
-                            id: 'book2',
-                            title: "అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు",
-                            author: "నాగబు ద్ధ",
-                            cover: "./images/Ashoka's.jpg",
-                            pdf: "./pdf/అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు.pdf",
-                            description: "Ashoka was a follower of Buddhism before the Kalinga war, contrary to popular belief that he converted to Buddhism after the war."
-                        },
-                        
-                    ]
-                },
-                {
-                    id: 'folder5',
+                    id: 'folder6',
                     name: 'ఇకాకు వంశం',
                     books: [
                         {
@@ -1090,10 +1552,182 @@
                             pdf: "./pdf/Veera Purushadatta’s Prakrit inscription.pdf",
                             description: "how the Ikshvaku dynasty is related to the Buddha and the history of Buddhism in Siriparvatham(Nagarjuna Konda)"
                         }
+                    
                     ]
                 },
                 {
-                    id: 'folder6',
+                    id: 'folder7',
+                    name: 'మన భాష ప్రాకృతం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "మన భాష ప్రాకృతం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/andadesabaso.jpg",
+                            pdf: "./pdf/మన భాష ప్రాకృతం .pdf",
+                            description: "our language is prakrit"
+                        },
+
+                {
+                            id: 'book2',
+                            title: "అంధదేస భాసో ప్రాకృతో",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/andadesabaso.jpg",
+                            pdf: "./pdf/అంధదేస భాసో ప్రాకృతో.pdf",
+                            description: "our language is prakrit"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder8',
+                    name: 'రామాయణ రహస్యం',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "రావణుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/myview.jpg",
+                            pdf: "./pdf/రావణుడు.pdf",
+                            description: "Ravana is a noble person in valmiki ramayana"
+                        },
+                        {
+                            id: 'book2',
+                            title: "నీతిలేని రాముడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ramidol.jpg",
+                            pdf: "./pdf/నీతిలేని రాముడు.pdf",
+                            description: "Rama has more than one wife in valmiki ramayana"
+                        },
+                        
+                        {
+                            id: 'book3',
+                            title: "కుబేరుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/myview.jpg",
+                            pdf: "./pdf/కుబేరుడు.pdf",
+                            description: "kubera is a king of yakshas and he is a devotee of buddha and his location is ancient andha desam"
+                        },
+                         {
+                           id: 'book4',
+                            title: "జైన రామాయణం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/myview.jpg",
+                            pdf: "./pdf/జైన రామాయణ.pdf",
+                            description: "valmiki ramayana is not histoy it's a brahmin propaganda to defame sramana traditions"
+                        },
+                        {
+                            id: 'book5',
+                            title: "రామాయణ రహస్యం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ramayana rahasyam.PNG",
+                            pdf: "./pdf/రామాయణ రహస్యం.pdf",
+                            description: "Rama has more than one wife in valmiki ramayana"
+                        },
+                        {
+                            id: 'book6',
+                            title: "సీత రాముడికి ఏమవుతుంది",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/ramasita.PNG",
+                            pdf: "./pdf/సీత రాముడికి ఏమవుతుంది.pdf",
+                            description: "we need to look ramayana is a story no need to look like a god stories"
+                        },
+                        {
+                            id: 'book7',
+                            title: "ఆంజనేయుని తండ్రి ఎవరు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/anjaneyuni.PNG",
+                            pdf: "./pdf/ఆంజనేయుని తండ్రి ఎవరు.pdf",
+                            description: "we need to look ramayana is a story no need to look like a god stories"
+                        },
+                       
+                    ]
+                },
+                {
+                    id: 'folder9',
+                    name: 'భిక్షువు సన్యాసి కాదు',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "భిక్షువు సన్యాసి కాదు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/bikshu.png",
+                            pdf: "./pdf/భిక్షువు సన్యాసి కాదు.pdf",
+                            description: "The origins and development of Buddhism in India"
+                        },
+                        {
+                            id: 'book2',
+                            title: "అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/Ashoka's.jpg",
+                            pdf: "./pdf/అశోకుడు కళింగ యుద్దానికి ముందే బౌద్దుడు.pdf",
+                            description: "Ashoka was a follower of Buddhism before the Kalinga war, contrary to popular belief that he converted to Buddhism after the war."
+                        },
+                        
+                    ]
+                },
+               { id: 'folder10',
+                    name: 'పుంగవోలు(ఒంగోలు) చరిత్ర',
+                    books: [
+                        {
+                            id: 'book1',
+                            title: "ప్రకాశం జిల్లాలో ఇనుప యుగంలో జీవితం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/iron tools megalithic.png",
+                            pdf: "./pdf/ప్రకాశం జిల్లాలో ఇనుప యుగంలో జీవితం.pdf",
+                            description: "pungavolu(ongole) history is missing in andhra pradesh history books because Brahmins destroyed all the records"
+                        },
+                          {
+                            id: 'book2',
+                            title: "పుంగవోలు (ఒంగోలు) చరిత్ర",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/tamalapaku.png",
+                            pdf: "./pdf/పుంగవోలు (ఒంగోలు) చరిత్ర .pdf",
+                            description: "pungavolu(ongole) history is missing in andhra pradesh history books because Brahmins destroyed all the records"
+                        },
+                          {
+                            id: 'book3',
+                            title: "చిముఖ్దం శాసనం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/prakasam inscription.png",
+                            pdf: "./pdf/చిముఖ్దం శాసనం.pdf",
+                            description: "pungavolu(ongole) history is missing in andhra pradesh history books because Brahmins destroyed all the records"
+                        },
+                          {
+                            id: 'book4',
+                            title: "ప్రకాశం జిల్లా శాసనాలు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/prakasam inscription.png",
+                            pdf: "./pdf/ప్రకాశం జిల్లా శాసనాలు.pdf",
+                            description: "pungavolu(ongole) history is missing in andhra pradesh history books because Brahmins destroyed all the records"
+                        },
+                          {
+                            id: 'book5',
+                            title: "పల్లవులకు ముందు పుంగవోలు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/coins prakasam.png",
+                            pdf: "./pdf/పల్లవులకు ముందు పుంగవోలు.pdf",
+                            description: "pungavolu(ongole) history is missing in andhra pradesh history books because Brahmins destroyed all the records"
+                        },
+                          {
+                            id: 'book6',
+                            title: "బ్రాహ్మణ పల్లవుల వ్యూహం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/homam.png",
+                            pdf: "./pdf/బ్రాహ్మణ పల్లవుల వ్యూహం.pdf",
+                            description: "pungavolu(ongole) history is missing in andhra pradesh history books because Brahmins destroyed all the records"
+                        },
+                          {
+                            id: 'book7',
+                            title: "పల్లవ బ్రాహ్మణ ప్రాజెక్ట్",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/homam.png",
+                            pdf: "./pdf/పల్లవ బ్రాహ్మణ ప్రాజెక్ట్.pdf",
+                            description: "pungavolu(ongole) history is missing in andhra pradesh history books because Brahmins destroyed all the records"
+                        }
+                    ]
+                },
+                {
+                    id: 'folder11',
                     name: 'కలియుగం',
                     books: [
                         {
@@ -1123,9 +1757,8 @@
                     ]
                 },
                 
-                
                 {
-                    id: 'folder7',
+                    id: 'folder12',
                     name: 'శూద్రులు ఎవరు',
                     books: [
                         {
@@ -1155,11 +1788,19 @@
                     ]
                 },
                 {
-                    id: 'folder8',
+                    id: 'folder13',
                     name: 'తెలుగు లిపి మార్పు',
                     books: [
                         {
                             id: 'book1',
+                            title: "తెలుగు లిపి యుద్ధ సిద్ధాంతం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/telugulipmarpu.JPG",
+                            pdf: "./pdf/తెలుగు లిపి యుద్ధ సిద్ధాంతం.pdf",
+                            description: "How Telugu script has changed over the years and its impact on literature. This book explores the evolution of the Telugu script and its significance in preserving the language and culture."
+                        },
+                        {
+                            id: 'book2',
                             title: "తెలుగు లిపి మార్పు",
                             author: "నాగబు ద్ధ",
                             cover: "./images/telugulipmarpu.JPG",
@@ -1167,17 +1808,25 @@
                             description: "How Telugu script has changed over the years and its impact on literature. This book explores the evolution of the Telugu script and its significance in preserving the language and culture."
                         },
                         {
-                            id: 'book2',
+                            id: 'book3',
                             title: "తొలి తెలుగు లిపి నాగుల లిపి",
                             author: "నాగబు ద్ధ",
                             cover: "./images/toliteluguinscrption.jpg",
                             pdf: "./pdf/తొలి తెలుగు లిపి నాగుల లిపి .pdf",
                             description: "The first Telugu script was the Nagula script, which was used in the inscriptions of the battiprolu Satavahana and ikshvaku dynasty. This book explores the origins of the Nagula script and its significance in the development of the Telugu language."
+                        },
+                         {
+                            id: 'book4',
+                            title: "ప్రాకృతం ఎందుకు ఓడిపోయింది",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/battiprolu inscription 1.png",
+                            pdf: "./pdf/ప్రాకృతం ఎందుకు ఓడిపోయింది .pdf",
+                            description: "The first Telugu script was the Nagula script, which was used in the inscriptions of the battiprolu Satavahana and ikshvaku dynasty. This book explores the origins of the Nagula script and its significance in the development of the Telugu language."
                         }
                     ]
                 },
                 {
-                    id: 'folder9',
+                    id: 'folder14',
                     name: 'హిందీ',
                     books: [
                         {
@@ -1191,7 +1840,7 @@
                     ]
                 },
                 {
-                    id: 'folder10',
+                    id: 'folder15',
                     name: 'వేదాల రచన కాలం',
                     books: [
                         {
@@ -1233,11 +1882,19 @@
                             cover: "./images/satisahagamanam.webp",
                             pdf: "./pdf/ఏంటి హిందూ మతం గొప్ప.pdf",
                             description: "hindu religion is not great and it is a religion of superstitions and lies. This book critically examines the claims of Hinduism's greatness, highlighting its historical and cultural complexities."
+                        },
+                       {
+                            id: 'book6',
+                            title: "ఓం చిహ్నం",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/om 1.jpg",
+                            pdf: "./pdf/ఓం చిహ్నం.pdf",
+                            description: "om is not gives any auspicious things while u chant repetadly"
                         }
                     ]
                 },
                 {
-                    id: 'folder11',
+                    id: 'folder16',
                     name: 'శాతవాహనులు బౌద్ధ పోషకులు',
                     books: [
                         {
@@ -1252,35 +1909,43 @@
                     ]
                 },
                 {
-                    id: 'folder12',
-                    name: 'జైనం',
+                    id: 'folder17',
+                    name: 'ఋగ్వేదంలో పశుబలి',
                     books: [
                         {
                             id: 'book1',
-                            title: "జైనం",
+                            title: "పశుబలి ఋగ్వేదంలో",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/jain.jpg",
-                            pdf: "./pdf/జైనం.pdf",
-                            description: "Jain philosophy and history"
+                            cover: "./images/cow killing.jpg",
+                            pdf: "./pdf/ పశుబలి ఋగ్వేదంలో.pdf",
+                            description: "rugveda does support cow killing for rituals it's a very importent ritual in rigveda not only cow but other animals also. they later eat that cow meat in a feast."
                         }
                     ]
                 },
                 {
-                    id: 'folder13',
-                    name: 'చార్వాకం',
+                    id: 'folder18',
+                    name: 'అశ్వమేధ యాగం',
                     books: [
                         {
                             id: 'book1',
-                            title: "చార్వాకం",
+                            title: "అశ్వమేధ యాగం",
                             author: "నాగబు ద్ధ",
-                            cover: "./images/charvaka.jpg",
-                            pdf: "./pdf/చార్వాకం.pdf",
-                            description: "Materialist philosophy of Charvaka"
+                            cover: "./images/Ashwamedha_yagna_.jpg",
+                            pdf: "./pdf/అశ్వమేధ యాగం.pdf",
+                            description: "అశ్వమేధ యాగం ఒక గొప్ప ఆధ్యాత్మిక వేడుక కాదు; ఇది ఇప్పటి వరకు బ్రాహ్మణుల చేత  రూపొందించబడిన కర్మలలో అత్యంత జుగుప్సాకరమైన (disgusting) మరియు అమానుషమైన వాటిలో ఒకటి. ఇది బ్రాహ్మణుల మతపరమైన ఆచారాల చరిత్రపై శాశ్వతమైన మచ్చగా నిలుస్తుంది. బ్రాహ్మణుల మతం అత్యంత నీచమైన అణచివేత రూపాలను అమలు చేయడానికి ఎలా ఆయుధంగా మారుతుందో చెప్పడానికి ఈ అశ్వమేధ యాగం ఒక నిదర్శనం."
+                        },
+                        {
+                            id: 'book2',
+                            title: "శతపథ బ్రాహ్మణంలో ఆవు",
+                            author: "నాగబు ద్ధ",
+                            cover: "./images/satapada cow.png",
+                            pdf: "./pdf/శతపథ బ్రాహ్మణంలో ఆవు.pdf",
+                            description: "అశ్వమేధ యాగం ఒక గొప్ప ఆధ్యాత్మిక వేడుక కాదు; ఇది ఇప్పటి వరకు బ్రాహ్మణుల చేత  రూపొందించబడిన కర్మలలో అత్యంత జుగుప్సాకరమైన (disgusting) మరియు అమానుషమైన వాటిలో ఒకటి. ఇది బ్రాహ్మణుల మతపరమైన ఆచారాల చరిత్రపై శాశ్వతమైన మచ్చగా నిలుస్తుంది. బ్రాహ్మణుల మతం అత్యంత నీచమైన అణచివేత రూపాలను అమలు చేయడానికి ఎలా ఆయుధంగా మారుతుందో చెప్పడానికి ఈ అశ్వమేధ యాగం ఒక నిదర్శనం."
                         }
                     ]
                 },
                 {
-                    id: 'folder14',
+                    id: 'folder19',
                     name: 'ఆధునిక భారతం',
                     books: [
                         {
@@ -1294,7 +1959,7 @@
                     ]
                 },
                 {
-                    id: 'folder15',
+                    id: 'folder20',
                     name: 'అర్థశాస్త్రం',
                     books: [
                         {
